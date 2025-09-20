@@ -34,11 +34,25 @@
                 '0%': { opacity: '0', transform: 'scale(0.95) translateY(10px)' },
                 '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
               },
+              'glitch-1': {
+                  '0%, 100%': { clipPath: 'inset(50% 0 30% 0)', transform: 'translate(-2px, -1px)' },
+                  '25%': { clipPath: 'inset(10% 0 80% 0)', transform: 'translate(2px, 1px)' },
+                  '50%': { clipPath: 'inset(80% 0 5% 0)', transform: 'translate(-2px, 1px)' },
+                  '75%': { clipPath: 'inset(40% 0 45% 0)', transform: 'translate(2px, -1px)' },
+              },
+              'glitch-2': {
+                  '0%, 100%': { clipPath: 'inset(70% 0 15% 0)', transform: 'translate(1px, 2px)' },
+                  '25%': { clipPath: 'inset(20% 0 70% 0)', transform: 'translate(-1px, -2px)' },
+                  '50%': { clipPath: 'inset(90% 0 2% 0)', transform: 'translate(1px, -2px)' },
+                  '75%': { clipPath: 'inset(30% 0 60% 0)', transform: 'translate(-1px, 2px)' },
+              }
             },
             animation: {
               'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
               'pulse-glow': 'pulse-glow 2s infinite ease-in-out',
               'pop-in': 'pop-in 0.5s ease-out forwards',
+              'glitch-1': 'glitch-1 2s linear infinite alternate-reverse',
+              'glitch-2': 'glitch-2 1.5s linear infinite alternate',
             },
           },
         },

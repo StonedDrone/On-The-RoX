@@ -5,7 +5,14 @@ export const HuntPage: React.FC = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="text-center animate-fade-in-up">
-                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tighter text-light">The Hunt</h1>
+                <div className="relative inline-block font-extrabold tracking-tighter text-4xl sm:text-5xl" style={{ filter: 'brightness(1.2)' }}>
+                    <h1 className="relative text-light p-2 z-10">
+                        The Hunt
+                    </h1>
+                    <div className="absolute inset-0 p-2 text-primary animate-glitch-1" aria-hidden="true">The Hunt</div>
+                    <div className="absolute inset-0 p-2 text-secondary animate-glitch-2" aria-hidden="true">The Hunt</div>
+                </div>
+
                 <p className="mt-4 max-w-3xl mx-auto text-lg text-light/80">
                     JayNdaboX must survive the urban landscape in a one-of-a-kind ESk8 manhunt. Track the action live on hunt day.
                 </p>
