@@ -5,14 +5,23 @@ const costData = {
   "title": "🔥 On The RoX – Bounty Allocation 🔥",
   "sections": [
     {
-      "name": "Core Gear (6 Hunters)",
+      "name": "Core Hunt Team Gear",
       "items": [
-        {"label": "Boards", "costPerUnit": 600, "quantity": 6, "icon": "🛹", "color": "#A2FF00"},
+        {"label": "Mobility Gear", "costPerUnit": 600, "quantity": 6, "icon": "🛹", "color": "#A2FF00"},
         {"label": "AR Glasses", "costPerUnit": 500, "quantity": 6, "icon": "👓", "color": "#FF00FF"},
         {"label": "Drones", "costPerUnit": 500, "quantity": 6, "icon": "🚁", "color": "#00FFFF"},
         {"label": "360° Cameras", "costPerUnit": 300, "quantity": 6, "icon": "📷", "color": "#FF1493"}
       ],
       "subtotal": 11400,
+      "displayStyle": "neon-table"
+    },
+    {
+      "name": "Public Jackpot & Rewards",
+      "items": [
+        {"label": "Live Jackpot Board", "range": [1000, 1500], "icon": "🎰", "color": "#FFA500"},
+        {"label": "Real-World Prizes", "range": [500, 1000], "icon": "🎁", "color": "#FFC0CB"}
+      ],
+      "subtotalRange": [1500, 2500],
       "displayStyle": "neon-table"
     },
     {
@@ -27,15 +36,15 @@ const costData = {
     {
       "name": "Tech Development",
       "items": [
-        {"label": "AR Marker App", "range": [3000, 5000], "icon": "🧩", "color": "#00FF7F"}
+        {"label": "AR Marker App", "range": [3000, 4000], "icon": "🧩", "color": "#00FF7F"}
       ],
-      "subtotalRange": [3000, 5000],
+      "subtotalRange": [3000, 4000],
       "displayStyle": "neon-table"
     }
   ],
   "remaining": {
-    "range": [1600, 3600],
-    "description": "These funds go toward livestream setup, marketing, and player rewards.",
+    "range": [100, 2100],
+    "description": "These funds go toward livestream setup, marketing, and additional player rewards.",
     "color": "#FF69B4"
   },
   "tips": [

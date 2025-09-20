@@ -28,7 +28,7 @@ export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCo
                     </span>
                 </h1>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-light/80">
-                    Join the chase. Support JayNdaboX in a high-stakes Augmented Reality Sk8Hunt. All proceeds support breast cancer awareness.
+                    Join the city-wide chase! Your bounty fuels the core hunt team and powers the grand prize jackpot. Find JayNdaboX, win real-world rewards, and support a great cause.
                 </p>
             </div>
 

@@ -14,17 +14,21 @@ export const HuntPage: React.FC = () => {
                 </div>
 
                 <p className="mt-4 max-w-3xl mx-auto text-lg text-light/80">
-                    JayNdaboX must survive the urban landscape in a one-of-a-kind Sk8Hunt. Track the action live on hunt day.
+                    This isn't just for the pros—the entire city is the arena! Anyone can join the Sk8Hunt. Find JayNdaboX, scan his unique marker, and you could win big from the live jackpot. Track the action here on hunt day.
                 </p>
             </div>
 
             <div className="mt-20">
-                 <h2 className="text-3xl font-bold text-center text-primary mb-8">Live Augmented Reality Spectator Overlay</h2>
-                 <div className="aspect-video bg-black border-2 border-primary rounded-lg shadow-2xl shadow-primary/20 flex items-center justify-center p-4">
-                     <div className="text-center">
-                        <p className="text-2xl font-bold text-light/60">Hunt Day Feed Will Appear Here</p>
-                        <p className="text-light/50 mt-2">Get ready for a first-of-its-kind Augmented Reality viewing experience, powered by <a href="https://www.illust.space/" target="_blank" rel="noopener noreferrer" className="font-bold text-secondary hover:text-primary transition-colors">Illust.space</a>.</p>
-                        <div className="mt-4 w-24 h-1 bg-secondary mx-auto rounded-full animate-pulse"></div>
+                 <h2 className="text-3xl font-bold text-center text-primary mb-8">The Hunting Grounds</h2>
+                 <div className="aspect-video bg-black border-2 border-primary rounded-lg shadow-2xl shadow-primary/20 flex items-center justify-center p-0 overflow-hidden relative">
+                     <img 
+                         src="https://images.unsplash.com/photo-1533414254844-39f14b62f790?q=80&w=1280&h=720&auto=format&fit=crop"
+                         alt="Map of the French Quarter, New Orleans"
+                         className="w-full h-full object-cover"
+                     />
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                         <h3 className="text-2xl font-bold text-light drop-shadow-lg">The Arena: French Quarter, New Orleans</h3>
+                         <p className="text-light/90 mt-1 drop-shadow-md">The hunt is confined to the historic streets of the Vieux Carré. Plan your route wisely.</p>
                      </div>
                  </div>
             </div>
