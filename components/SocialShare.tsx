@@ -7,8 +7,8 @@ export const SocialShare: React.FC = () => {
     const [isCopied, setIsCopied] = useState(false);
     
     const pageUrl = window.location.href;
-    const shareTitle = "On The RoX: ESk8 Augmented Reality Manhunt"; 
-    const shareText = "Support On The RoX: An ESk8 Augmented Reality Manhunt for a great cause! #OnTheRoX #ESk8 #Charity";
+    const shareTitle = "On The RoX: An Augmented Reality Sk8Hunt"; 
+    const shareText = "Support On The RoX: An Augmented Reality Sk8Hunt for a great cause! #OnTheRoX #Sk8Hunt #Charity";
     
     const encodedUrl = encodeURIComponent(pageUrl);
     const encodedTitle = encodeURIComponent(shareTitle);

@@ -34,7 +34,7 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({ content, onClose }) =>
                 </h2>
                 <img src={content.qr} alt={`${content.type} QR Code`} className="w-full h-auto rounded-lg border-4 border-primary" />
                 <p className="text-center text-light/60 mt-4 text-sm">
-                    Open your {content.type} app and scan this code to complete your donation.
+                    Open your {content.type} app and scan this code to complete your bounty.
                 </p>
             </div>
         </div>

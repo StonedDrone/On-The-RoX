@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
                         On The <span className="text-primary">RoX</span>
                     </span>
                 </div>
-                <p>An ESk8 Augmented Reality Manhunt for JayNdaboX</p>
+                <p>An Augmented Reality Sk8Hunt for JayNdaboX</p>
                 <p className="mt-2 text-sm">All proceeds support <span className="text-primary font-semibold">Breast Cancer Awareness</span>.</p>
                 
                 <div className="mt-6 pt-6 border-t border-primary/10">

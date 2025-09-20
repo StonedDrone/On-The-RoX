@@ -1,4 +1,3 @@
-
 import React from 'react';
 // Fix: Use namespace import for react-router-dom to fix module resolution errors.
 import * as ReactRouterDom from 'react-router-dom';
@@ -13,7 +12,7 @@ export const Header: React.FC<HeaderProps> = ({ isMenuOpen, setIsMenuOpen }) => 
     const location = ReactRouterDom.useLocation();
 
     const navLinks = [
-        { path: '/', name: 'Donate' },
+        { path: '/', name: 'Bounty' },
         { path: '/hunt', name: 'The Hunt' },
     ];
 

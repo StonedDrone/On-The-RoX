@@ -41,7 +41,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (typeof amount !== 'number' || amount <= 0) {
-            setError('Please enter a valid donation amount.');
+            setError('Please enter a valid bounty amount.');
             return;
         }
         setError('');
@@ -70,7 +70,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
 
     return (
         <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-8 border border-primary/20 h-full">
-            <h2 className="text-2xl font-bold text-light mb-6">Make a Donation</h2>
+            <h2 className="text-2xl font-bold text-light mb-6">Place a Bounty</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-6">
                     <label className="block text-sm font-medium text-light/80 mb-2">Choose an amount</label>
@@ -126,7 +126,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                             onChange={(e) => setIsAnonymous(e.target.checked)}
                             className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                         />
-                        <span className="ml-2 text-light/80">Donate anonymously</span>
+                        <span className="ml-2 text-light/80">Place bounty anonymously</span>
                     </label>
                 </div>
                 
@@ -152,7 +152,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
 
                 <div className="space-y-4">
                      <button type="submit" className="w-full flex items-center justify-center bg-primary hover:bg-pink-600 text-light font-bold py-4 px-4 rounded-lg transition-transform duration-200 hover:scale-105 animate-pulse-glow">
-                        <CreditCardIcon className="w-6 h-6 mr-2" /> Donate with Card (Primary)
+                        <CreditCardIcon className="w-6 h-6 mr-2" /> Place Bounty with Card (Primary)
                      </button>
                      <div className="grid grid-cols-2 gap-4">
                         <button type="button" onClick={() => setModalContent({ type: 'venmo', qr: VENMO_QR_URL })} className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-light font-bold py-3 px-4 rounded-lg transition-transform duration-200 hover:scale-105">

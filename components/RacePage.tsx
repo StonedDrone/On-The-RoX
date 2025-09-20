@@ -14,7 +14,7 @@ export const HuntPage: React.FC = () => {
                 </div>
 
                 <p className="mt-4 max-w-3xl mx-auto text-lg text-light/80">
-                    JayNdaboX must survive the urban landscape in a one-of-a-kind ESk8 manhunt. Track the action live on hunt day.
+                    JayNdaboX must survive the urban landscape in a one-of-a-kind Sk8Hunt. Track the action live on hunt day.
                 </p>
             </div>
 

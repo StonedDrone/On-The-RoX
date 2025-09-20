@@ -19,11 +19,16 @@ export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCo
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="text-center animate-fade-in-up">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter text-light">
-                    <span className="text-primary">On The RoX</span>: ESk8 Augmented Reality Manhunt
+                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter text-light">
+                    <span className="text-primary">On The RoX</span>: Augmented Reality
+                    <span className="relative inline-block mx-2" style={{ filter: 'brightness(1.2)' }}>
+                        <span className="relative z-10">Sk8Hunt</span>
+                        <span className="absolute inset-0 text-primary animate-glitch-1" aria-hidden="true">Sk8Hunt</span>
+                        <span className="absolute inset-0 text-secondary animate-glitch-2" aria-hidden="true">Sk8Hunt</span>
+                    </span>
                 </h1>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-light/80">
-                    Join the chase. Support JayNdaboX in a high-stakes Augmented Reality manhunt. All proceeds support breast cancer awareness.
+                    Join the chase. Support JayNdaboX in a high-stakes Augmented Reality Sk8Hunt. All proceeds support breast cancer awareness.
                 </p>
             </div>
 
@@ -42,7 +47,7 @@ export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCo
                                 <span className="text-2xl font-bold text-light">${totalAmount.toLocaleString()}</span> raised of ${goal.toLocaleString()}
                             </div>
                             <div>
-                                <span className="text-2xl font-bold text-light">{donorCount}</span> donors
+                                <span className="text-2xl font-bold text-light">{donorCount}</span> supporters
                             </div>
                         </div>
                     </div>

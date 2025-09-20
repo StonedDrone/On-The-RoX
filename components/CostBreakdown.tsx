@@ -2,7 +2,7 @@ import React from 'react';
 
 const costData = {
   "goal": 25000,
-  "title": "🔥 On The RoX – Donation Allocation 🔥",
+  "title": "🔥 On The RoX – Bounty Allocation 🔥",
   "sections": [
     {
       "name": "Core Gear (6 Hunters)",
@@ -39,8 +39,8 @@ const costData = {
     "color": "#FF69B4"
   },
   "tips": [
-    "Hover over any item to see what your donation covers!",
-    "Progress bars update in real time as donations come in.",
+    "Hover over any item to see what your bounty covers!",
+    "Progress bars update in real time as bounties come in.",
     "Ranges show minimum & maximum estimates for flexible planning."
   ]
 };
@@ -72,7 +72,7 @@ export const CostBreakdown: React.FC = () => {
                                     : `${formatCurrency(item.range[0])} - ${formatCurrency(item.range[1])}`;
 
                                 return (
-                                    <li key={item.label} className="flex flex-wrap items-center justify-between py-3 border-b border-primary/10 transition-colors hover:bg-primary/10 px-2 -mx-2 rounded-md" title="Your donation helps cover this cost!">
+                                    <li key={item.label} className="flex flex-wrap items-center justify-between py-3 border-b border-primary/10 transition-colors hover:bg-primary/10 px-2 -mx-2 rounded-md" title="Your bounty helps cover this cost!">
                                         <div className="flex items-center">
                                             <span className="text-2xl mr-4" style={{ color: item.color }}>{item.icon}</span>
                                             <span className="font-medium text-light/90 text-lg">{item.label}</span>

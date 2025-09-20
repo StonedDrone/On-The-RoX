@@ -26,10 +26,10 @@ const timeAgo = (date: Date): string => {
 export const RecentDonors: React.FC<RecentDonorsProps> = ({ donations }) => {
     return (
         <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-8 border border-primary/20 h-full">
-            <h2 className="text-2xl font-bold text-light mb-6">Recent Donors</h2>
+            <h2 className="text-2xl font-bold text-light mb-6">Bounty Board</h2>
             <div className="space-y-4 max-h-[450px] overflow-y-auto pr-2">
                 {donations.length === 0 ? (
-                    <p className="text-light/60">Be the first to donate!</p>
+                    <p className="text-light/60">Be the first to place a bounty!</p>
                 ) : (
                     donations.map((donation, index) => (
                         <div key={donation.id} className="flex items-center justify-between p-3 bg-black/20 rounded-lg animate-fade-in-up" style={{ animationDelay: `${index * 50}ms`, opacity: 0 }}>
