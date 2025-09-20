@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { PRESET_AMOUNTS, VENMO_QR_URL, CASHAPP_QR_URL } from '../constants';
 import { QRCodeModal } from './QRCodeModal';
-import { CreditCardIcon, VenmoIcon, CashAppIcon } from './icons/Icons';
+import { CreditCardIcon, VenmoIcon, CashAppIcon, UploadIcon, CloseIcon } from './icons/Icons';
 
 interface DonationFormProps {
-    addDonation: (amount: number, name: string) => void;
+    addDonation: (amount: number, name: string, avatarUrl?: string) => void;
 }
 
 export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
@@ -13,6 +13,30 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [modalContent, setModalContent] = useState<{ type: 'venmo' | 'cashapp'; qr: string; } | null>(null);
     const [error, setError] = useState('');
+    const [avatar, setAvatar] = useState<string | null>(null);
+    const [fileName, setFileName] = useState<string | null>(null);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setFileName(file.name);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatar(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeAvatar = () => {
+        setAvatar(null);
+        setFileName(null);
+        const fileInput = document.getElementById('avatar-upload') as HTMLInputElement;
+        if (fileInput) {
+            fileInput.value = '';
+        }
+    };
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -21,11 +45,12 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
             return;
         }
         setError('');
-        addDonation(amount, isAnonymous ? 'Anonymous' : name);
+        addDonation(amount, isAnonymous ? 'Anonymous' : name, avatar ?? undefined);
         // Reset form
         setAmount(50);
         setName('');
         setIsAnonymous(false);
+        removeAvatar();
     };
     
     const handleAmountClick = (presetAmount: number) => {
@@ -93,7 +118,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                     />
                 </div>
                 
-                <div className="mb-8">
+                <div className="mb-6">
                      <label className="flex items-center">
                         <input
                             type="checkbox"
@@ -105,6 +130,26 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                     </label>
                 </div>
                 
+                <div className="mb-8">
+                    <label className="block text-sm font-medium text-light/80 mb-2">Add a Profile Picture (Optional)</label>
+                    <div className="mt-1 flex items-center">
+                        <label htmlFor="avatar-upload" className="cursor-pointer bg-purple-900/50 border border-primary/20 rounded-md py-2 px-3 text-sm font-medium text-light hover:bg-purple-800/50 flex items-center transition-colors">
+                            <UploadIcon className="w-5 h-5 mr-2" />
+                            <span>Choose File</span>
+                        </label>
+                        <input id="avatar-upload" name="avatar-upload" type="file" className="sr-only" accept="image/*" onChange={handleFileChange} />
+                    </div>
+                    {avatar && fileName && (
+                        <div className="mt-3 flex items-center">
+                            <img src={avatar} alt="Avatar preview" className="w-10 h-10 rounded-full object-cover" />
+                            <span className="ml-3 text-sm text-light/80 truncate">{fileName}</span>
+                            <button type="button" onClick={removeAvatar} className="ml-3 text-red-400 hover:text-red-300 transition-colors" aria-label="Remove image">
+                                <CloseIcon className="w-5 h-5"/>
+                            </button>
+                        </div>
+                    )}
+                </div>
+
                 <div className="space-y-4">
                      <button type="submit" className="w-full flex items-center justify-center bg-primary hover:bg-pink-600 text-light font-bold py-4 px-4 rounded-lg transition-transform duration-200 hover:scale-105 animate-pulse-glow">
                         <CreditCardIcon className="w-6 h-6 mr-2" /> Donate with Card (Primary)

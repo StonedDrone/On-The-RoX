@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Fix: Use namespace import for react-router-dom to fix module resolution errors.
 import * as ReactRouterDom from 'react-router-dom';
 import { DonationPage } from './components/DonationPage';
-import { RacePage } from './components/RacePage';
+import { HuntPage } from './components/RacePage';
 import { Header } from './components/Header';
 import { useDonationData } from './hooks/useDonationData';
 import { DONATION_GOAL } from './constants';
@@ -31,7 +31,7 @@ const App: React.FC = () => {
                 <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
                 <main className="flex-grow pt-20">
                     <ReactRouterDom.Routes>
-                        <ReactRouterDom.Route path="/race" element={<RacePage />} />
+                        <ReactRouterDom.Route path="/hunt" element={<HuntPage />} />
                         <ReactRouterDom.Route path="/" element={
                             <DonationPage
                                 totalAmount={totalAmount}

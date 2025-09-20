@@ -14,7 +14,7 @@ export const Header: React.FC<HeaderProps> = ({ isMenuOpen, setIsMenuOpen }) => 
 
     const navLinks = [
         { path: '/', name: 'Donate' },
-        { path: '/race', name: 'The Race' },
+        { path: '/hunt', name: 'The Hunt' },
     ];
 
     const NavLink: React.FC<{ path: string; name: string; }> = ({ path, name }) => (

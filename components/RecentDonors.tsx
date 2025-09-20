@@ -34,9 +34,13 @@ export const RecentDonors: React.FC<RecentDonorsProps> = ({ donations }) => {
                     donations.map((donation, index) => (
                         <div key={donation.id} className="flex items-center justify-between p-3 bg-black/20 rounded-lg animate-fade-in-up" style={{ animationDelay: `${index * 50}ms`, opacity: 0 }}>
                             <div className="flex items-center">
-                                <div className="p-2 bg-primary/20 rounded-full mr-3">
-                                    <HeartIcon className="w-5 h-5 text-primary" />
-                                </div>
+                                {donation.avatarUrl ? (
+                                    <img src={donation.avatarUrl} alt={`${donation.name}'s avatar`} className="w-10 h-10 rounded-full object-cover mr-3 shrink-0" />
+                                ) : (
+                                    <div className="p-2 bg-primary/20 rounded-full mr-3 shrink-0">
+                                        <HeartIcon className="w-5 h-5 text-primary" />
+                                    </div>
+                                )}
                                 <div>
                                     <p className="font-semibold text-light">{donation.name}</p>
                                     <p className="text-xs text-light/60">{timeAgo(donation.timestamp)}</p>

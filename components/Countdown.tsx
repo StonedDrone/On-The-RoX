@@ -19,7 +19,7 @@ export const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
 
     return (
         <div>
-            <h2 className="text-center text-lg font-semibold text-secondary mb-4 uppercase tracking-widest">Race Starts In</h2>
+            <h2 className="text-center text-lg font-semibold text-secondary mb-4 uppercase tracking-widest">Hunt Starts In</h2>
             <div className="flex justify-center space-x-2 md:space-x-4">
                 <CountdownItem value={days} label="Days" />
                 <CountdownItem value={hours} label="Hours" />

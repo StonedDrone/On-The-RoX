@@ -7,14 +7,15 @@ export const useDonationData = () => {
     const [donorCount, setDonorCount] = useState(0);
     const [donations, setDonations] = useState<Donation[]>([]);
 
-    const addDonation = useCallback((amount: number, name: string) => {
+    const addDonation = useCallback((amount: number, name: string, avatarUrl?: string) => {
         setTotalAmount(prev => prev + amount);
         setDonorCount(prev => prev + 1);
         const newDonation: Donation = {
             id: new Date().toISOString(),
             name: name || 'Anonymous',
             amount,
-            timestamp: new Date()
+            timestamp: new Date(),
+            avatarUrl
         };
         setDonations(prev => [newDonation, ...prev.slice(0, 14)]);
     }, []);

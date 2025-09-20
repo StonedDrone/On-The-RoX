@@ -11,7 +11,7 @@ interface DonationPageProps {
     totalAmount: number;
     donorCount: number;
     donations: Donation[];
-    addDonation: (amount: number, name: string) => void;
+    addDonation: (amount: number, name: string, avatarUrl?: string) => void;
     goal: number;
 }
 
@@ -23,7 +23,7 @@ export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCo
                     <span className="text-primary">On The RoX</span>: ESk8 Augmented Reality Manhunt
                 </h1>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-light/80">
-                    Join the chase. Support JayNdaboX in a high-stakes Augmented Reality manhunt race. All proceeds support breast cancer awareness.
+                    Join the chase. Support JayNdaboX in a high-stakes Augmented Reality manhunt. All proceeds support breast cancer awareness.
                 </p>
             </div>
 

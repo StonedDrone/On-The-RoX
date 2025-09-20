@@ -3,6 +3,7 @@ export interface Donation {
     name: string;
     amount: number;
     timestamp: Date;
+    avatarUrl?: string;
 }
 
 export interface CountdownState {
