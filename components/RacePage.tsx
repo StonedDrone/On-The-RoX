@@ -1,7 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { CostBreakdown } from './CostBreakdown';
+import { JayNdaboxIcon } from './icons/Icons';
 
 export const HuntPage: React.FC = () => {
+    // State for the random icon popup
+    const [iconPosition, setIconPosition] = useState<{ top: number; left: number } | null>(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const popupInterval = setInterval(() => {
+            setIsVisible(false); // Trigger fade-out
+
+            // Wait for fade-out to complete before moving and fading in
+            setTimeout(() => {
+                // Position between 10% and 90% to avoid edges
+                const top = Math.random() * 80 + 10;
+                const left = Math.random() * 80 + 10;
+                setIconPosition({ top, left });
+                setIsVisible(true); // Trigger fade-in
+            }, 500); // 500ms for fade-out transition
+
+        }, 3500); // Change position every 3.5 seconds
+
+        // Initial popup after a short delay
+        const initialTimeout = setTimeout(() => {
+            const top = Math.random() * 80 + 10;
+            const left = Math.random() * 80 + 10;
+            setIconPosition({ top, left });
+            setIsVisible(true);
+        }, 500);
+
+
+        return () => {
+            clearInterval(popupInterval);
+            clearTimeout(initialTimeout);
+        };
+    }, []);
+
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="text-center animate-fade-in-up">
@@ -26,7 +61,26 @@ export const HuntPage: React.FC = () => {
                          alt="Map of the French Quarter, New Orleans"
                          className="w-full h-full object-cover"
                      />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+
+                     {/* Random Icon Popup */}
+                     {iconPosition && (
+                         <div
+                             className="absolute transition-all duration-500"
+                             style={{
+                                 top: `${iconPosition.top}%`,
+                                 left: `${iconPosition.left}%`,
+                                 opacity: isVisible ? 1 : 0,
+                                 transform: `translate(-50%, -50%) scale(${isVisible ? 1 : 0.75})`,
+                             }}
+                             aria-hidden="true"
+                         >
+                            <div className="relative w-16 h-16 flex items-center justify-center animate-pulse-glow">
+                                <JayNdaboxIcon className="w-14 h-14 text-secondary drop-shadow-lg" style={{filter: 'drop-shadow(0 0 5px currentColor)'}} />
+                            </div>
+                         </div>
+                     )}
+
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6 pointer-events-none">
                          <h3 className="text-2xl font-bold text-light drop-shadow-lg">The Arena: French Quarter, New Orleans</h3>
                          <p className="text-light/90 mt-1 drop-shadow-md">The hunt is confined to the historic streets of the Vieux Carré. Plan your route wisely.</p>
                      </div>
