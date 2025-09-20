@@ -8,3 +8,10 @@ export const CASHAPP_QR_URL = 'https://api.qrserver.com/v1/create-qr-code/?size=
 
 
 export const PRESET_AMOUNTS = [10, 25, 50, 100];
+
+export const SOCIAL_PROFILES = {
+    facebook: 'https://www.facebook.com/stoned.drone.2025',
+    instagram: 'https://www.instagram.com/jayndabox',
+    x: 'https://x.com/jayndabox',
+    linkedin: 'https://www.linkedin.com/in/jayndabox/',
+};

@@ -4,6 +4,7 @@ import { Countdown } from './Countdown';
 import { ProgressBar } from './ProgressBar';
 import { DonationForm } from './DonationForm';
 import { RecentDonors } from './RecentDonors';
+import { SocialShare } from './SocialShare'; // Import the new component
 import { TARGET_DATE } from '../constants';
 
 interface DonationPageProps {
@@ -24,6 +25,11 @@ export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCo
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-light/80">
                     Join the chase. Support JayNdaboX in a high-stakes Augmented Reality manhunt race. All proceeds support breast cancer awareness.
                 </p>
+            </div>
+
+            {/* Social Share Section */}
+            <div className="mt-8">
+                <SocialShare />
             </div>
 
             <div className="mt-12 max-w-4xl mx-auto">
