@@ -1,5 +1,7 @@
+
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+// Fix: Use namespace import for react-router-dom to fix module resolution errors.
+import * as ReactRouterDom from 'react-router-dom';
 import { LogoIcon, MenuIcon, CloseIcon } from './icons/Icons';
 
 interface HeaderProps {
@@ -8,7 +10,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ isMenuOpen, setIsMenuOpen }) => {
-    const location = useLocation();
+    const location = ReactRouterDom.useLocation();
 
     const navLinks = [
         { path: '/', name: 'Donate' },
@@ -16,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({ isMenuOpen, setIsMenuOpen }) => 
     ];
 
     const NavLink: React.FC<{ path: string; name: string; }> = ({ path, name }) => (
-        <Link
+        <ReactRouterDom.Link
             to={path}
             onClick={() => setIsMenuOpen(false)}
             className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
@@ -26,19 +28,19 @@ export const Header: React.FC<HeaderProps> = ({ isMenuOpen, setIsMenuOpen }) => 
             }`}
         >
             {name}
-        </Link>
+        </ReactRouterDom.Link>
     );
 
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-dark/80 backdrop-blur-lg border-b border-primary/20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
-                    <Link to="/" className="flex-shrink-0 flex items-center group">
+                    <ReactRouterDom.Link to="/" className="flex-shrink-0 flex items-center group">
                         <LogoIcon className="h-10 w-auto text-primary group-hover:text-secondary transition-colors duration-300" />
                         <span className="ml-3 text-2xl font-bold tracking-tighter text-light">
                             On The <span className="text-primary">RoX</span>
                         </span>
-                    </Link>
+                    </ReactRouterDom.Link>
                     <div className="hidden md:block">
                         <div className="ml-10 flex items-baseline space-x-4">
                             {navLinks.map((link) => (
