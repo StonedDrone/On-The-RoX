@@ -50,7 +50,7 @@ export const Header: React.FC<HeaderProps> = ({ isMenuOpen, setIsMenuOpen }) => 
                     <div className="-mr-2 flex md:hidden">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="bg-dark-accent inline-flex items-center justify-center p-2 rounded-md text-light/70 hover:text-light hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark focus:ring-light"
+                            className="bg-dark-accent inline-flex items-center justify-center p-2 rounded-md text-light/70 hover:text-light hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark focus:ring-light"
                         >
                             <span className="sr-only">Open main menu</span>
                             {isMenuOpen ? <CloseIcon className="block h-6 w-6" /> : <MenuIcon className="block h-6 w-6" />}

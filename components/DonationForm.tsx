@@ -80,7 +80,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                                 type="button"
                                 key={p_amount}
                                 onClick={() => handleAmountClick(p_amount)}
-                                className={`py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${amount === p_amount ? 'bg-primary text-light ring-2 ring-primary' : 'bg-dark-accent hover:bg-purple-700 text-light'}`}
+                                className={`py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${amount === p_amount ? 'bg-primary text-light ring-2 ring-primary' : 'bg-dark-accent hover:bg-zinc-800 text-light'}`}
                             >
                                 ${p_amount}
                             </button>
@@ -97,7 +97,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                             id="custom-amount"
                             value={amount}
                             onChange={handleCustomAmountChange}
-                            className="w-full bg-purple-900/50 border border-primary/20 rounded-lg py-3 pl-7 pr-4 text-light focus:ring-primary focus:border-primary"
+                            className="w-full bg-zinc-900 border border-primary/20 rounded-lg py-3 pl-7 pr-4 text-light focus:ring-primary focus:border-primary"
                             placeholder="5.00"
                             min="1"
                         />
@@ -113,7 +113,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         disabled={isAnonymous}
-                        className="w-full bg-purple-900/50 border border-primary/20 rounded-lg py-3 px-4 text-light disabled:opacity-50 focus:ring-primary focus:border-primary"
+                        className="w-full bg-zinc-900 border border-primary/20 rounded-lg py-3 px-4 text-light disabled:opacity-50 focus:ring-primary focus:border-primary"
                         placeholder="JayNdaboX Fan"
                     />
                 </div>
@@ -133,7 +133,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                 <div className="mb-8">
                     <label className="block text-sm font-medium text-light/80 mb-2">Add a Profile Picture (Optional)</label>
                     <div className="mt-1 flex items-center">
-                        <label htmlFor="avatar-upload" className="cursor-pointer bg-purple-900/50 border border-primary/20 rounded-md py-2 px-3 text-sm font-medium text-light hover:bg-purple-800/50 flex items-center transition-colors">
+                        <label htmlFor="avatar-upload" className="cursor-pointer bg-zinc-900 border border-primary/20 rounded-md py-2 px-3 text-sm font-medium text-light hover:bg-zinc-800 flex items-center transition-colors">
                             <UploadIcon className="w-5 h-5 mr-2" />
                             <span>Choose File</span>
                         </label>
@@ -155,7 +155,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                         <CreditCardIcon className="w-6 h-6 mr-2" /> Place Bounty with Card (Primary)
                      </button>
                      <div className="grid grid-cols-2 gap-4">
-                        <button type="button" onClick={() => setModalContent({ type: 'venmo', qr: VENMO_QR_URL })} className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-light font-bold py-3 px-4 rounded-lg transition-transform duration-200 hover:scale-105">
+                        <button type="button" onClick={() => setModalContent({ type: 'venmo', qr: VENMO_QR_URL })} className="w-full flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 text-light font-bold py-3 px-4 rounded-lg transition-transform duration-200 hover:scale-105">
                             <VenmoIcon className="w-6 h-6 mr-2" /> Venmo
                         </button>
                         <button type="button" onClick={() => setModalContent({ type: 'cashapp', qr: CASHAPP_QR_URL })} className="w-full flex items-center justify-center bg-secondary hover:bg-lime-500 text-dark font-bold py-3 px-4 rounded-lg transition-transform duration-200 hover:scale-105">
