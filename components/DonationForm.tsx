@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PRESET_AMOUNTS, VENMO_QR_URL, CASHAPP_QR_URL } from '../constants';
 import { QRCodeModal } from './QRCodeModal';
+import { ConfirmationModal } from './ConfirmationModal'; // Import the new component
 import { VenmoIcon, CashAppIcon, UploadIcon, CloseIcon } from './icons/Icons';
 
 interface DonationFormProps {
@@ -15,6 +16,8 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
     const [error, setError] = useState('');
     const [avatar, setAvatar] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
+    const [confirmationDetails, setConfirmationDetails] = useState<{ amount: number; name: string } | null>(null);
+    const [pendingDonation, setPendingDonation] = useState<{ amount: number; name: string } | null>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -45,15 +48,21 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
         setError('');
 
         const donorName = isAnonymous ? 'Anonymous' : (name || 'JayNdaboX Fan');
-        addDonation(amount, donorName, avatar ?? undefined);
+        const donationAmount = amount;
+
+        // Set pending donation to show confirmation after QR modal closes
+        setPendingDonation({ amount: donationAmount, name: donorName });
+
+        // Add to the public feed immediately
+        addDonation(donationAmount, donorName, avatar ?? undefined);
 
         // Send email receipt for business records
-        const subject = `New On The RoX Bounty: $${amount} from ${donorName}`;
+        const subject = `New On The RoX Bounty: $${donationAmount} from ${donorName}`;
         const bodyLines = [
             `A new bounty has been placed for the On The RoX Sk8Hunt!`,
             ``,
             `Details:`,
-            `- Amount: $${amount.toLocaleString()}`,
+            `- Amount: $${donationAmount.toLocaleString()}`,
             `- Name: ${donorName}`,
             `- Timestamp: ${new Date().toLocaleString()}`,
             `- Payment Method: ${paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)}`,
@@ -90,6 +99,15 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
             setAmount(Number(value));
         }
     }
+
+    const handleQRCodeModalClose = () => {
+        setModalContent(null);
+        if (pendingDonation) {
+            setConfirmationDetails(pendingDonation);
+            setPendingDonation(null);
+        }
+    };
+
 
     return (
         <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-8 border border-primary/20 h-full">
@@ -200,7 +218,8 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                      </div>
                 </div>
             </div>
-            {modalContent && <QRCodeModal content={modalContent} onClose={() => setModalContent(null)} />}
+            {modalContent && <QRCodeModal content={modalContent} onClose={handleQRCodeModalClose} />}
+            {confirmationDetails && <ConfirmationModal details={confirmationDetails} onClose={() => setConfirmationDetails(null)} />}
         </div>
     );
 };

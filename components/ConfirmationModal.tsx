@@ -1,0 +1,62 @@
+import React, { useEffect } from 'react';
+import { CloseIcon, HeartIcon } from './icons/Icons';
+
+interface ConfirmationModalProps {
+    details: {
+        amount: number;
+        name: string;
+    };
+    onClose: () => void;
+}
+
+export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ details, onClose }) => {
+    
+    useEffect(() => {
+        const handleEsc = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+        window.addEventListener('keydown', handleEsc);
+        return () => {
+            window.removeEventListener('keydown', handleEsc);
+        };
+    }, [onClose]);
+
+    return (
+        <div 
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" 
+            onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="confirmation-title"
+        >
+            <div 
+                className="bg-dark-accent rounded-2xl shadow-2xl p-8 border border-secondary/20 relative max-w-sm w-full animate-pop-in" 
+                onClick={(e) => e.stopPropagation()}
+            >
+                <button onClick={onClose} className="absolute top-4 right-4 text-light/60 hover:text-light" aria-label="Close confirmation">
+                    <CloseIcon className="w-6 h-6" />
+                </button>
+                <div className="text-center">
+                    <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-secondary/20 mb-4 animate-pulse-glow" style={{animationDuration: '3s'}}>
+                        <HeartIcon className="h-10 w-10 text-secondary" style={{ filter: 'drop-shadow(0 0 8px #A3E635)' }}/>
+                    </div>
+                    <h2 id="confirmation-title" className="text-2xl font-bold text-light">Thank You, {details.name}!</h2>
+                    <p className="mt-2 text-light/80">
+                        Your generous bounty of <span className="font-bold text-secondary">${details.amount.toLocaleString()}</span> has been added to the hunt.
+                    </p>
+                    <p className="mt-4 text-sm text-light/60">
+                        Every contribution fuels the chase and supports breast cancer awareness. We couldn't do this without you.
+                    </p>
+                    <button
+                        onClick={onClose}
+                        className="mt-6 w-full bg-primary text-light font-bold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-accent focus:ring-primary"
+                    >
+                        Awesome!
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
