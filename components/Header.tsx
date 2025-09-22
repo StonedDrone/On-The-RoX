@@ -14,6 +14,7 @@ export const Header: React.FC<HeaderProps> = ({ isMenuOpen, setIsMenuOpen }) => 
     const navLinks = [
         { path: '/', name: 'Bounty' },
         { path: '/hunt', name: 'The Hunt' },
+        { path: '/solace', name: 'Solace Coins' },
     ];
 
     const NavLink: React.FC<{ path: string; name: string; }> = ({ path, name }) => (

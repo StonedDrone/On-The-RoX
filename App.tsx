@@ -13,6 +13,7 @@ import { DonationToast } from './components/DonationToast';
 import type { DonationToast as DonationToastType } from './types';
 import { useCountdown } from './hooks/useCountdown';
 import { SoundtrackPlayer } from './components/SoundtrackPlayer';
+import { SolaceCoinPage } from './components/SolaceCoinPage';
 
 const App: React.FC = () => {
     const { totalAmount, donorCount, donations, addDonation } = useDonationData();
@@ -61,6 +62,7 @@ const App: React.FC = () => {
                 <main className="flex-grow pt-20">
                     <ReactRouterDom.Routes>
                         <ReactRouterDom.Route path="/hunt" element={<HuntPage />} />
+                        <ReactRouterDom.Route path="/solace" element={<SolaceCoinPage />} />
                         <ReactRouterDom.Route path="/" element={
                             <DonationPage
                                 totalAmount={totalAmount}

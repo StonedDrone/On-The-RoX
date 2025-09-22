@@ -1,4 +1,5 @@
 import React from 'react';
+import * as ReactRouterDom from 'react-router-dom';
 import type { Donation } from '../types';
 import { Countdown } from './Countdown';
 import { ProgressBar } from './ProgressBar';
@@ -31,6 +32,17 @@ export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCo
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-light/80">
                     Join the city-wide chase! Your bounty fuels the core hunt team and powers the grand prize jackpot. Find JayNdaboX, win real-world rewards, and support a great cause.
                 </p>
+            </div>
+
+             {/* Solace Coin Teaser */}
+            <div className="mt-10 text-center animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+                 <ReactRouterDom.Link to="/solace" className="inline-block bg-dark-accent/50 backdrop-blur-sm rounded-lg p-4 border border-gold/30 group hover:border-gold transition-colors duration-300">
+                    <p className="text-lg font-semibold">
+                        <span className="text-2xl mr-2">💰</span>
+                        You have <span className="text-gold font-bold">150 Solace Coins</span> waiting for you.
+                    </p>
+                    <p className="text-sm text-gold/80 group-hover:text-gold transition-colors">Click here to learn more!</p>
+                </ReactRouterDom.Link>
             </div>
 
             {/* Social Share Section */}
