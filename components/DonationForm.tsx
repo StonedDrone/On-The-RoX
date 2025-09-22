@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PRESET_AMOUNTS, VENMO_QR_URL, CASHAPP_QR_URL } from '../constants';
 import { QRCodeModal } from './QRCodeModal';
-import { ConfirmationModal } from './ConfirmationModal'; // Import the new component
+import { ConfirmationModal } from './ConfirmationModal';
 import { VenmoIcon, CashAppIcon, UploadIcon, CloseIcon } from './icons/Icons';
 
 interface DonationFormProps {
@@ -16,8 +16,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
     const [error, setError] = useState('');
     const [avatar, setAvatar] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
-    const [confirmationDetails, setConfirmationDetails] = useState<{ amount: number; name: string } | null>(null);
-    const [pendingDonation, setPendingDonation] = useState<{ amount: number; name: string } | null>(null);
+    const [stagedDonation, setStagedDonation] = useState<{ amount: number; name: string; avatarUrl?: string; } | null>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -50,11 +49,8 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
         const donorName = isAnonymous ? 'Anonymous' : (name || 'JayNdaboX Fan');
         const donationAmount = amount;
 
-        // Set pending donation to show confirmation after QR modal closes
-        setPendingDonation({ amount: donationAmount, name: donorName });
-
-        // Add to the public feed immediately
-        addDonation(donationAmount, donorName, avatar ?? undefined);
+        // Stage the donation for confirmation
+        setStagedDonation({ amount: donationAmount, name: donorName, avatarUrl: avatar ?? undefined });
 
         // Send email receipt for business records
         const subject = `New On The RoX Bounty: $${donationAmount} from ${donorName}`;
@@ -77,12 +73,6 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
         // Show QR code modal
         const qrUrl = paymentMethod === 'venmo' ? VENMO_QR_URL : CASHAPP_QR_URL;
         setModalContent({ type: paymentMethod, qr: qrUrl });
-
-        // Reset form
-        setAmount(50);
-        setName('');
-        setIsAnonymous(false);
-        removeAvatar();
     };
     
     const handleAmountClick = (presetAmount: number) => {
@@ -102,12 +92,24 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
 
     const handleQRCodeModalClose = () => {
         setModalContent(null);
-        if (pendingDonation) {
-            setConfirmationDetails(pendingDonation);
-            setPendingDonation(null);
-        }
+        // The confirmation modal will now appear via conditional rendering
     };
 
+    const handleConfirmDonation = () => {
+        if (stagedDonation) {
+            addDonation(stagedDonation.amount, stagedDonation.name, stagedDonation.avatarUrl);
+        }
+        // Reset form and state
+        setStagedDonation(null);
+        setAmount(50);
+        setName('');
+        setIsAnonymous(false);
+        removeAvatar();
+    };
+
+    const handleCancelDonation = () => {
+        setStagedDonation(null);
+    };
 
     return (
         <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-8 border border-primary/20 h-full">
@@ -219,7 +221,13 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                 </div>
             </div>
             {modalContent && <QRCodeModal content={modalContent} onClose={handleQRCodeModalClose} />}
-            {confirmationDetails && <ConfirmationModal details={confirmationDetails} onClose={() => setConfirmationDetails(null)} />}
+            {stagedDonation && !modalContent && (
+                <ConfirmationModal
+                    details={stagedDonation}
+                    onClose={handleCancelDonation}
+                    onConfirm={handleConfirmDonation}
+                />
+            )}
         </div>
     );
 };

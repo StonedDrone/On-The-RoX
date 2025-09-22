@@ -5,7 +5,8 @@ import {
 } from './icons/Icons';
 
 const CoinRain: React.FC = () => {
-    const [coins, setCoins] = useState<JSX.Element[]>([]);
+    // Fix: Use React.ReactElement instead of JSX.Element to resolve namespace issue.
+    const [coins, setCoins] = useState<React.ReactElement[]>([]);
 
     useEffect(() => {
         const coinElements = Array.from({ length: 20 }).map((_, i) => {

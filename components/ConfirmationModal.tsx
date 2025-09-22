@@ -7,9 +7,10 @@ interface ConfirmationModalProps {
         name: string;
     };
     onClose: () => void;
+    onConfirm: () => void;
 }
 
-export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ details, onClose }) => {
+export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ details, onClose, onConfirm }) => {
     
     useEffect(() => {
         const handleEsc = (event: KeyboardEvent) => {
@@ -35,25 +36,25 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ details, o
                 className="bg-dark-accent rounded-2xl shadow-2xl p-8 border border-secondary/20 relative max-w-sm w-full animate-pop-in" 
                 onClick={(e) => e.stopPropagation()}
             >
-                <button onClick={onClose} className="absolute top-4 right-4 text-light/60 hover:text-light" aria-label="Close confirmation">
+                <button onClick={onClose} className="absolute top-4 right-4 text-light/60 hover:text-light" aria-label="Cancel donation">
                     <CloseIcon className="w-6 h-6" />
                 </button>
                 <div className="text-center">
-                    <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-secondary/20 mb-4 animate-pulse-glow" style={{animationDuration: '3s'}}>
+                    <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-secondary/20 mb-4">
                         <HeartIcon className="h-10 w-10 text-secondary" style={{ filter: 'drop-shadow(0 0 8px #A3E635)' }}/>
                     </div>
-                    <h2 id="confirmation-title" className="text-2xl font-bold text-light">Thank You, {details.name}!</h2>
+                    <h2 id="confirmation-title" className="text-2xl font-bold text-light">Confirm Your Bounty</h2>
                     <p className="mt-2 text-light/80">
-                        Your generous bounty of <span className="font-bold text-secondary">${details.amount.toLocaleString()}</span> has been added to the hunt.
+                        You are placing a <span className="font-bold text-secondary">${details.amount.toLocaleString()}</span> bounty as <span className="font-bold text-light">{details.name}</span>.
                     </p>
                     <p className="mt-4 text-sm text-light/60">
-                        Every contribution fuels the chase and supports breast cancer awareness. We couldn't do this without you.
+                        Please click the button below after you have successfully sent the payment. Your contribution will then appear on the public bounty board.
                     </p>
                     <button
-                        onClick={onClose}
-                        className="mt-6 w-full bg-primary text-light font-bold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-accent focus:ring-primary"
+                        onClick={onConfirm}
+                        className="mt-6 w-full bg-primary text-light font-bold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-accent focus:ring-primary animate-pulse-glow"
                     >
-                        Awesome!
+                        I've Sent The Payment!
                     </button>
                 </div>
             </div>
