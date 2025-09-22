@@ -103,7 +103,12 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                                 type="button"
                                 key={p_amount}
                                 onClick={() => handleAmountClick(p_amount)}
-                                className={`py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${amount === p_amount ? 'bg-primary text-light ring-2 ring-primary' : 'bg-dark-accent hover:bg-zinc-800 text-light'}`}
+                                className={`py-3 px-4 rounded-lg font-semibold transition-all duration-200 border-2 ${
+                                    amount === p_amount 
+                                    ? 'bg-purple/80 text-light border-purple' 
+                                    : 'bg-dark-accent border-transparent hover:border-gold/50 text-light'
+                                }`}
+                                style={amount === p_amount ? { boxShadow: '0 0 12px #BF40BF' } : {}}
                             >
                                 ${p_amount}
                             </button>
@@ -176,11 +181,21 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                 <div className="space-y-4 pt-4 border-t border-primary/10">
                     <p className="text-center text-sm font-medium text-light/80">Complete your bounty using:</p>
                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <button type="button" onClick={() => handlePayment('venmo')} className="w-full flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 text-light font-bold py-4 px-4 rounded-lg transition-transform duration-200 hover:scale-105">
+                        <button 
+                            type="button" 
+                            onClick={() => handlePayment('venmo')} 
+                            className="w-full flex items-center justify-center bg-zinc-800 text-light font-bold py-4 px-4 rounded-lg transition-all duration-300 hover:scale-105 border-2 border-purple hover:bg-purple/20"
+                            style={{ boxShadow: '0 0 12px #BF40BF' }}
+                        >
                             <VenmoIcon className="w-6 h-6 mr-2" /> Pay with Venmo
                         </button>
-                        <button type="button" onClick={() => handlePayment('cashapp')} className="w-full flex items-center justify-center bg-secondary hover:bg-lime-500 text-dark font-bold py-4 px-4 rounded-lg transition-transform duration-200 hover:scale-105">
-                            <CashAppIcon className="w-6 h-6 mr-2" /> Pay with Cash App
+                        <button 
+                            type="button" 
+                            onClick={() => handlePayment('cashapp')} 
+                            className="w-full flex items-center justify-center bg-dark-accent text-light font-bold py-4 px-4 rounded-lg transition-all duration-300 hover:scale-105 border-2 border-gold hover:bg-gold/20"
+                            style={{ boxShadow: '0 0 12px #FFD700' }}
+                        >
+                            <CashAppIcon className="w-6 h-6 mr-2 text-secondary" /> Pay with Cash App
                         </button>
                      </div>
                 </div>

@@ -13,6 +13,8 @@
             colors: {
               'primary': '#EC4899', // Hot Pink
               'secondary': '#A3E635', // Lime Green
+              'purple': '#BF40BF', // Mardi Gras Purple
+              'gold': '#FFD700', // Mardi Gras Gold
               'dark': '#0D0D0D', // Near Black
               'light': '#F3F4F6', // Off-white
               'dark-accent': '#1A1A1A', // Dark Gray
@@ -45,6 +47,10 @@
                   '25%': { clipPath: 'inset(20% 0 70% 0)', transform: 'translate(-1px, -2px)' },
                   '50%': { clipPath: 'inset(90% 0 2% 0)', transform: 'translate(1px, -2px)' },
                   '75%': { clipPath: 'inset(30% 0 60% 0)', transform: 'translate(-1px, 2px)' },
+              },
+              'wheel-roll': {
+                  '0%': { transform: 'translateY(-20px) rotateX(90deg)', opacity: '0' },
+                  '100%': { transform: 'translateY(0) rotateX(0deg)', opacity: '1' },
               }
             },
             animation: {
@@ -53,6 +59,7 @@
               'pop-in': 'pop-in 0.5s ease-out forwards',
               'glitch-1': 'glitch-1 2s linear infinite alternate-reverse',
               'glitch-2': 'glitch-2 1.5s linear infinite alternate',
+              'wheel-roll': 'wheel-roll 0.5s ease-out forwards',
             },
           },
         },

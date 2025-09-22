@@ -7,10 +7,20 @@ interface CountdownProps {
 
 const CountdownItem: React.FC<{ value: number; label: string }> = ({ value, label }) => (
     <div className="flex flex-col items-center">
-        <div className="text-4xl md:text-6xl font-extrabold text-light tracking-tighter w-20 md:w-28 text-center bg-black/20 p-2 rounded-lg border border-primary/20">
-            {String(value).padStart(2, '0')}
+        <div 
+            className="flex items-center justify-center w-20 h-20 md:w-28 md:h-28 bg-dark/50 rounded-full border-2 border-secondary"
+            style={{ boxShadow: '0 0 15px #A3E635, inset 0 0 8px #A3E635' }}
+        >
+             <div className="h-[2.5rem] md:h-[4rem] overflow-hidden" style={{ perspective: '300px' }}>
+                <span 
+                    key={value} 
+                    className="text-4xl md:text-6xl font-extrabold text-light tracking-tighter animate-wheel-roll tabular-nums block"
+                >
+                     {String(value).padStart(2, '0')}
+                </span>
+            </div>
         </div>
-        <span className="mt-2 text-xs md:text-sm font-medium uppercase text-light/60 tracking-wider">{label}</span>
+        <span className="mt-3 text-xs md:text-sm font-medium uppercase text-light/60 tracking-wider">{label}</span>
     </div>
 );
 
