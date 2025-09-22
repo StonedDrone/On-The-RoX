@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PRESET_AMOUNTS, VENMO_QR_URL, CASHAPP_QR_URL } from '../constants';
 import { QRCodeModal } from './QRCodeModal';
-import { CreditCardIcon, VenmoIcon, CashAppIcon, UploadIcon, CloseIcon } from './icons/Icons';
+import { VenmoIcon, CashAppIcon, UploadIcon, CloseIcon } from './icons/Icons';
 
 interface DonationFormProps {
     addDonation: (amount: number, name: string, avatarUrl?: string) => void;
@@ -37,15 +37,38 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
         }
     };
 
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handlePayment = (paymentMethod: 'venmo' | 'cashapp') => {
         if (typeof amount !== 'number' || amount <= 0) {
             setError('Please enter a valid bounty amount.');
             return;
         }
         setError('');
-        addDonation(amount, isAnonymous ? 'Anonymous' : name, avatar ?? undefined);
+
+        const donorName = isAnonymous ? 'Anonymous' : (name || 'JayNdaboX Fan');
+        addDonation(amount, donorName, avatar ?? undefined);
+
+        // Send email receipt for business records
+        const subject = `New On The RoX Bounty: $${amount} from ${donorName}`;
+        const bodyLines = [
+            `A new bounty has been placed for the On The RoX Sk8Hunt!`,
+            ``,
+            `Details:`,
+            `- Amount: $${amount.toLocaleString()}`,
+            `- Name: ${donorName}`,
+            `- Timestamp: ${new Date().toLocaleString()}`,
+            `- Payment Method: ${paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)}`,
+            ``,
+            `This is an automated receipt for business records.`
+        ];
+        const body = bodyLines.join('\n');
+        const mailtoLink = `mailto:ontherox2026@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        
+        window.open(mailtoLink, '_blank');
+
+        // Show QR code modal
+        const qrUrl = paymentMethod === 'venmo' ? VENMO_QR_URL : CASHAPP_QR_URL;
+        setModalContent({ type: paymentMethod, qr: qrUrl });
+
         // Reset form
         setAmount(50);
         setName('');
@@ -71,7 +94,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
     return (
         <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-8 border border-primary/20 h-full">
             <h2 className="text-2xl font-bold text-light mb-6">Place a Bounty</h2>
-            <form onSubmit={handleSubmit}>
+            <div>
                 <div className="mb-6">
                     <label className="block text-sm font-medium text-light/80 mb-2">Choose an amount</label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -150,20 +173,18 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                     )}
                 </div>
 
-                <div className="space-y-4">
-                     <button type="submit" className="w-full flex items-center justify-center bg-primary hover:bg-pink-600 text-light font-bold py-4 px-4 rounded-lg transition-transform duration-200 hover:scale-105 animate-pulse-glow">
-                        <CreditCardIcon className="w-6 h-6 mr-2" /> Place Bounty with Card (Primary)
-                     </button>
-                     <div className="grid grid-cols-2 gap-4">
-                        <button type="button" onClick={() => setModalContent({ type: 'venmo', qr: VENMO_QR_URL })} className="w-full flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 text-light font-bold py-3 px-4 rounded-lg transition-transform duration-200 hover:scale-105">
-                            <VenmoIcon className="w-6 h-6 mr-2" /> Venmo
+                <div className="space-y-4 pt-4 border-t border-primary/10">
+                    <p className="text-center text-sm font-medium text-light/80">Complete your bounty using:</p>
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button type="button" onClick={() => handlePayment('venmo')} className="w-full flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 text-light font-bold py-4 px-4 rounded-lg transition-transform duration-200 hover:scale-105">
+                            <VenmoIcon className="w-6 h-6 mr-2" /> Pay with Venmo
                         </button>
-                        <button type="button" onClick={() => setModalContent({ type: 'cashapp', qr: CASHAPP_QR_URL })} className="w-full flex items-center justify-center bg-secondary hover:bg-lime-500 text-dark font-bold py-3 px-4 rounded-lg transition-transform duration-200 hover:scale-105">
-                            <CashAppIcon className="w-6 h-6 mr-2" /> Cash App
+                        <button type="button" onClick={() => handlePayment('cashapp')} className="w-full flex items-center justify-center bg-secondary hover:bg-lime-500 text-dark font-bold py-4 px-4 rounded-lg transition-transform duration-200 hover:scale-105">
+                            <CashAppIcon className="w-6 h-6 mr-2" /> Pay with Cash App
                         </button>
                      </div>
                 </div>
-            </form>
+            </div>
             {modalContent && <QRCodeModal content={modalContent} onClose={() => setModalContent(null)} />}
         </div>
     );
