@@ -32,6 +32,10 @@
                 '0%, 100%': { boxShadow: '0 0 10px #EC4899' },
                 '50%': { boxShadow: '0 0 20px #EC4899, 0 0 30px #EC4899' },
               },
+              'pulse-glow-green': {
+                '0%, 100%': { boxShadow: '0 0 15px #A3E635' },
+                '50%': { boxShadow: '0 0 25px #A3E635, 0 0 35px #A3E635' },
+              },
               'pop-in': {
                 '0%': { opacity: '0', transform: 'scale(0.95) translateY(10px)' },
                 '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
@@ -51,15 +55,38 @@
               'wheel-roll': {
                   '0%': { transform: 'translateY(-20px) rotateX(90deg)', opacity: '0' },
                   '100%': { transform: 'translateY(0) rotateX(0deg)', opacity: '1' },
+              },
+              'pulse-grid': {
+                '0%, 100%': { opacity: '0' },
+                '50%': { opacity: '0.2' },
+              },
+              'map-ping': {
+                '0%': { transform: 'scale(0.8)', opacity: '1' },
+                '75%, 100%': { transform: 'scale(1.5)', opacity: '0' },
+              },
+              'sparkle': {
+                '0%': { transform: 'scale(1) rotate(0deg)', opacity: '1' },
+                '100%': { transform: 'scale(0) rotate(180deg)', opacity: '0' },
+              },
+              'slide-in-out': {
+                '0%': { transform: 'translateX(-100%)', opacity: '0' },
+                '10%': { transform: 'translateX(0)', opacity: '1' },
+                '90%': { transform: 'translateX(0)', opacity: '1' },
+                '100%': { transform: 'translateX(-100%)', opacity: '0' },
               }
             },
             animation: {
               'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
               'pulse-glow': 'pulse-glow 2s infinite ease-in-out',
+              'pulse-glow-green': 'pulse-glow-green 2s infinite ease-in-out',
               'pop-in': 'pop-in 0.5s ease-out forwards',
               'glitch-1': 'glitch-1 2s linear infinite alternate-reverse',
               'glitch-2': 'glitch-2 1.5s linear infinite alternate',
               'wheel-roll': 'wheel-roll 0.5s ease-out forwards',
+              'pulse-grid': 'pulse-grid 8s ease-in-out infinite',
+              'map-ping': 'map-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
+              'sparkle': 'sparkle 0.5s ease-out forwards',
+              'slide-in-out': 'slide-in-out 5s ease-in-out forwards',
             },
           },
         },

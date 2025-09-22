@@ -1,30 +1,16 @@
 
-import React, { useState } from 'react';
-import { FacebookIcon, TwitterIcon, LinkIcon, InstagramIcon, LinkedInIcon } from './icons/Icons';
+
+import React from 'react';
+import { FacebookIcon, TwitterIcon, InstagramIcon, LinkedInIcon } from './icons/Icons';
 import { SOCIAL_PROFILES } from '../constants';
 
 export const SocialShare: React.FC = () => {
-    const [isCopied, setIsCopied] = useState(false);
     
-    const pageUrl = window.location.href;
-    const shareTitle = "On The RoX: An Augmented Reality Sk8Hunt"; 
-    const shareText = "Support On The RoX: An Augmented Reality Sk8Hunt for a great cause! #OnTheRoX #Sk8Hunt #Charity";
-    
-    const encodedUrl = encodeURIComponent(pageUrl);
-    const encodedTitle = encodeURIComponent(shareTitle);
-    const encodedText = encodeURIComponent(shareText);
-
-    const shareLinks = {
-        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-        twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`,
-        linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}&summary=${encodedText}`,
-    };
-
-    const handleCopyLink = () => {
-        navigator.clipboard.writeText(pageUrl).then(() => {
-            setIsCopied(true);
-            setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
-        });
+    const handleFuelClick = () => {
+        const donationSection = document.getElementById('donation-form-section');
+        if (donationSection) {
+            donationSection.scrollIntoView({ behavior: 'smooth' });
+        }
     };
     
     const ActionButton: React.FC<{
@@ -56,30 +42,12 @@ export const SocialShare: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center justify-center animate-fade-in-up space-y-8" style={{animationDelay: '200ms'}}>
-            <div>
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-secondary mb-4 text-center">Share The Cause</h3>
-                <div className="flex items-center space-x-4">
-                    <ActionButton href={shareLinks.facebook} label="Share on Facebook">
-                        <FacebookIcon className="w-6 h-6" />
-                    </ActionButton>
-                    <ActionButton href={shareLinks.twitter} label="Share on X">
-                        <TwitterIcon className="w-6 h-6" />
-                    </ActionButton>
-                     <ActionButton href={shareLinks.linkedin} label="Share on LinkedIn">
-                        <LinkedInIcon className="w-6 h-6" />
-                    </ActionButton>
-                    <div className="relative">
-                        <ActionButton onClick={handleCopyLink} label="Copy link">
-                            <LinkIcon className="w-6 h-6" />
-                        </ActionButton>
-                        {isCopied && (
-                             <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-secondary text-dark text-xs font-bold px-2 py-1 rounded-md">
-                                Copied!
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+            <button
+                onClick={handleFuelClick}
+                className="text-dark bg-secondary font-bold py-4 px-10 rounded-lg text-xl uppercase tracking-wider transition-all duration-300 hover:scale-105 animate-pulse-glow-green"
+            >
+                Fuel the Hunt
+            </button>
             
             <div>
                 <h3 className="text-sm font-semibold uppercase tracking-widest text-secondary mb-4 text-center">Follow The Journey</h3>

@@ -21,3 +21,9 @@ export interface Hunter {
     bio: string;
     esk8: string;
 }
+
+export interface DonationToast {
+    id: number;
+    name: string;
+    amount: number;
+}
