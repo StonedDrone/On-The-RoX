@@ -6,6 +6,7 @@ import { DonationForm } from './DonationForm';
 import { RecentDonors } from './RecentDonors';
 import { SocialShare } from './SocialShare'; // Import the new component
 import { TARGET_DATE } from '../constants';
+import { CauseDivider } from './CauseDivider';
 
 interface DonationPageProps {
     totalAmount: number;
@@ -51,6 +52,18 @@ export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCo
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* Cause Section */}
+            <div className="my-16 max-w-4xl mx-auto text-center animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+                <CauseDivider />
+                <h2 className="text-3xl sm:text-4xl font-bold text-secondary tracking-wider mt-6">The Cause</h2>
+                <div className="mt-6 text-base sm:text-lg text-light/90 space-y-4 max-w-3xl mx-auto">
+                    <p>I’m Jay-N-da-BoX, creator of On The RoX and founder of Stoned Drone Productions.</p>
+                    <p>I live every day with Stage 4 Hodgkin’s Lymphoma. And while I fight my own battle, I’m also rolling for another — the fight against <strong className="font-bold text-primary">breast cancer</strong>.</p>
+                    <p>Too many friends, family, and warriors in our city are touched by it. That’s why every coin in this hunt, every bounty, and every ride fuels more than just prizes. It fuels <strong className="font-bold text-secondary">hope, research, and support</strong> for those who need it most.</p>
+                    <p>When you join the hunt, you’re not just chasing Jay-N-da-BoX. <strong className="font-bold text-primary">You’re chasing a future where cancer doesn’t get the final word.</strong></p>
                 </div>
             </div>
             
