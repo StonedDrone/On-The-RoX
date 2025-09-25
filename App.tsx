@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Fix: Use namespace import for react-router-dom to fix module resolution errors.
 import * as ReactRouterDom from 'react-router-dom';
 import { DonationPage } from './components/DonationPage';
@@ -17,21 +17,69 @@ import { SolaceCoinPage } from './components/SolaceCoinPage';
 import { ProfilePage } from './components/ProfilePage';
 import { UserProvider, useUser } from './hooks/useUser';
 import { AuthModal } from './components/AuthModal';
+import { CoinIcon } from './components/icons/Icons';
+
+// New generic toast component for informational messages like referrals
+const InfoToast: React.FC<{ message: string; onDismiss: () => void; }> = ({ message, onDismiss }) => {
+    useEffect(() => {
+        const timer = setTimeout(onDismiss, 5000); // Auto-dismiss after 5 seconds
+        return () => clearTimeout(timer);
+    }, [onDismiss]);
+
+    return (
+        <div 
+            className="flex items-center bg-dark-accent/80 backdrop-blur-md border-l-4 border-gold rounded-lg shadow-2xl p-4 w-72 animate-slide-in-out"
+            role="alert"
+        >
+            <div className="p-2 bg-gold/20 rounded-full mr-3 shrink-0">
+                <CoinIcon className="w-5 h-5 text-gold" />
+            </div>
+            <div>
+                <p className="font-semibold text-light text-sm whitespace-pre-wrap">{message}</p>
+            </div>
+        </div>
+    );
+};
+
+// Define union type for different kinds of toasts
+interface DonationToastInfo extends DonationToastType {
+    type: 'donation';
+}
+interface InfoToastInfo {
+    type: 'info';
+    id: number;
+    message: string;
+}
+type ToastInfo = DonationToastInfo | InfoToastInfo;
+
 
 const AppContent: React.FC = () => {
     const { totalAmount, donorCount, donations, addDonation } = useDonationData();
-    const { user, addDonationToProfile } = useUser();
+    const { user, addDonationToProfile, referralMessage, clearReferralMessage } = useUser();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-    const [toasts, setToasts] = useState<DonationToastType[]>([]);
+    const [toasts, setToasts] = useState<ToastInfo[]>([]);
     const countdown = useCountdown(TARGET_DATE);
+
+    useEffect(() => {
+        if (referralMessage) {
+            const newToast: InfoToastInfo = {
+                type: 'info',
+                id: Date.now(),
+                message: referralMessage,
+            };
+            setToasts(currentToasts => [...currentToasts, newToast]);
+            clearReferralMessage();
+        }
+    }, [referralMessage, clearReferralMessage]);
 
     const handleAddDonation = (amount: number, name: string, avatarUrl?: string) => {
         addDonation(amount, name, avatarUrl);
         if (user) {
             addDonationToProfile({ amount });
         }
-        const newToast: DonationToastType = {
+        const newToast: DonationToastInfo = {
+            type: 'donation',
             id: Date.now(),
             name: name || 'Anonymous',
             amount: amount,
@@ -86,11 +134,18 @@ const AppContent: React.FC = () => {
                 <Footer />
             </div>
             
-            {/* Donation Toast Container */}
+            {/* Toast Container */}
             <div className="fixed bottom-4 left-4 z-50 space-y-3">
-                {toasts.map(toast => (
-                    <DonationToast key={toast.id} toast={toast} onDismiss={() => removeToast(toast.id)} />
-                ))}
+                {toasts.map(toast => {
+                    if (toast.type === 'donation') {
+                         const donationToastData: DonationToastType = { id: toast.id, name: toast.name, amount: toast.amount };
+                         return <DonationToast key={toast.id} toast={donationToastData} onDismiss={() => removeToast(toast.id)} />;
+                    }
+                     if (toast.type === 'info') {
+                        return <InfoToast key={toast.id} message={toast.message} onDismiss={() => removeToast(toast.id)} />;
+                    }
+                    return null;
+                })}
             </div>
             {isAuthModalOpen && <AuthModal onClose={() => setIsAuthModalOpen(false)} />}
         </ReactRouterDom.HashRouter>

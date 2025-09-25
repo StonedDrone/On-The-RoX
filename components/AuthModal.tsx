@@ -8,6 +8,7 @@ interface AuthModalProps {
 
 export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const { login } = useUser();
 
     useEffect(() => {
@@ -24,8 +25,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (username.trim()) {
-            login(username.trim());
+        if (username.trim() && email.trim()) {
+            login(username.trim(), email.trim());
             onClose();
         }
     };
@@ -51,7 +52,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
                     </div>
                     <h2 id="auth-title" className="text-2xl font-bold text-light">Join The Hunt</h2>
                     <p className="mt-2 text-light/80">
-                        Enter a username to create or load your profile.
+                        Enter your details to create or load your profile.
                     </p>
                     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                         <div>
@@ -63,6 +64,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
                                 onChange={(e) => setUsername(e.target.value)}
                                 className="w-full bg-zinc-900 border border-primary/20 rounded-lg py-3 px-4 text-light focus:ring-primary focus:border-primary text-center"
                                 placeholder="YourHunterAlias"
+                                required
+                            />
+                        </div>
+                        <div>
+                           <label htmlFor="email" className="sr-only">Email</label>
+                           <input
+                                type="email"
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full bg-zinc-900 border border-primary/20 rounded-lg py-3 px-4 text-light focus:ring-primary focus:border-primary text-center"
+                                placeholder="your.email@example.com"
                                 required
                             />
                         </div>

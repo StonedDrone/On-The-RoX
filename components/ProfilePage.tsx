@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
-import { CoinIcon, UploadIcon, UserIcon, HeartIcon } from './icons/Icons';
+import { CoinIcon, UploadIcon, UserIcon, HeartIcon, LinkIcon } from './icons/Icons';
 
 const timeAgo = (date: Date): string => {
     const seconds = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);
@@ -25,6 +25,7 @@ export const ProfilePage: React.FC = () => {
     const [displayName, setDisplayName] = useState(user?.displayName || '');
     const [avatar, setAvatar] = useState(user?.avatarUrl || '');
     const [message, setMessage] = useState('');
+    const [copyMessage, setCopyMessage] = useState('');
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -50,6 +51,19 @@ export const ProfilePage: React.FC = () => {
         updateUser({ displayName, avatarUrl: avatar });
         setMessage('Profile updated successfully!');
         setTimeout(() => setMessage(''), 3000);
+    };
+
+    const handleShare = () => {
+        if (!user) return;
+        const profileUrl = `${window.location.origin}${window.location.pathname}#/?ref=${user.username}`;
+        navigator.clipboard.writeText(profileUrl).then(() => {
+            setCopyMessage('Referral link copied!');
+            setTimeout(() => setCopyMessage(''), 3000);
+        }, (err) => {
+            setCopyMessage('Failed to copy link.');
+            console.error('Could not copy text: ', err);
+            setTimeout(() => setCopyMessage(''), 3000);
+        });
     };
 
     if (!user) {
@@ -97,6 +111,17 @@ export const ProfilePage: React.FC = () => {
                             />
                         </div>
 
+                        <div className="w-full mt-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-light/80 mb-2">Email Address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                value={user.email || ''}
+                                disabled
+                                className="w-full bg-zinc-900/50 border border-primary/20 rounded-lg py-2 px-3 text-light/70 cursor-not-allowed"
+                            />
+                        </div>
+
                          <button
                             onClick={handleSaveChanges}
                             className="mt-6 w-full bg-primary text-light font-bold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-accent focus:ring-primary"
@@ -104,6 +129,15 @@ export const ProfilePage: React.FC = () => {
                             Save Changes
                         </button>
                         {message && <p className="text-secondary text-sm mt-3 text-center">{message}</p>}
+                        
+                        <button
+                            onClick={handleShare}
+                            className="mt-4 w-full bg-secondary text-dark font-bold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-lime-400 flex items-center justify-center"
+                        >
+                            <LinkIcon className="w-5 h-5 mr-2" />
+                            Share Profile & Earn 25 SC
+                        </button>
+                        {copyMessage && <p className="text-secondary text-sm mt-3 text-center">{copyMessage}</p>}
                     </div>
                 </div>
 

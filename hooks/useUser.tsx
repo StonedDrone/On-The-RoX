@@ -1,78 +1,129 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { User, UserDonation } from '../types';
 
-const USER_STORAGE_KEY = 'ontherox_user';
+const USERS_DB_KEY = 'ontherox_users_db';
+const CURRENT_USER_KEY = 'ontherox_current_user';
 
 interface UserContextType {
     user: User | null;
     isLoggedIn: boolean;
-    login: (username: string) => void;
+    login: (username: string, email: string) => void;
     logout: () => void;
     updateUser: (data: Partial<Omit<User, 'username'>>) => void;
     addDonationToProfile: (donation: Omit<UserDonation, 'timestamp'> & { timestamp?: Date }) => void;
+    referralMessage: string | null;
+    clearReferralMessage: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [referralMessage, setReferralMessage] = useState<string | null>(null);
+
+    const getUsersDb = (): { [key: string]: User } => {
+        try {
+            const dbString = localStorage.getItem(USERS_DB_KEY);
+            return dbString ? JSON.parse(dbString) : {};
+        } catch (e) {
+            console.error("Failed to parse users DB", e);
+            return {};
+        }
+    };
+
+    const saveUsersDb = (db: { [key: string]: User }) => {
+        try {
+            localStorage.setItem(USERS_DB_KEY, JSON.stringify(db));
+        } catch (error) {
+            console.error("Failed to save users DB", error);
+        }
+    };
 
     useEffect(() => {
+        // Handle referral link on initial load
+        const url = new URL(window.location.href);
+        const refUsername = url.hash.includes('?ref=') ? url.hash.split('?ref=')[1] : null;
+
+        if (refUsername) {
+            sessionStorage.setItem('ontherox_referrer', refUsername);
+            const cleanUrl = url.origin + url.pathname + url.hash.split('?')[0];
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
+
+        // Auto-login user if available
         try {
-            const storedUser = localStorage.getItem(USER_STORAGE_KEY);
-            if (storedUser) {
-                const parsedUser = JSON.parse(storedUser);
-                // Make sure date objects are correctly parsed
-                parsedUser.donations = parsedUser.donations.map((d: any) => ({...d, timestamp: new Date(d.timestamp)}));
-                setUser(parsedUser);
+            const currentUsername = localStorage.getItem(CURRENT_USER_KEY);
+            if (currentUsername) {
+                const usersDb = getUsersDb();
+                const storedUser = usersDb[currentUsername.toLowerCase()];
+                if (storedUser) {
+                    storedUser.donations = storedUser.donations.map((d: any) => ({...d, timestamp: new Date(d.timestamp)}));
+                    setUser(storedUser);
+                }
             }
         } catch (error) {
-            console.error("Failed to load user from localStorage", error);
-            localStorage.removeItem(USER_STORAGE_KEY);
+            console.error("Failed to auto-login user", error);
         }
     }, []);
 
-    const saveUser = (userData: User | null) => {
-        if (userData) {
-            localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
+    const login = useCallback((username: string, email: string) => {
+        if (!username || !email) return;
+
+        const usersDb = getUsersDb();
+        const lowerCaseUsername = username.toLowerCase();
+
+        if (usersDb[lowerCaseUsername]) {
+            // Existing user login
+            setUser(usersDb[lowerCaseUsername]);
+            localStorage.setItem(CURRENT_USER_KEY, username);
         } else {
-            localStorage.removeItem(USER_STORAGE_KEY);
-        }
-        setUser(userData);
-    };
+            // New user registration
+            const newUser: User = {
+                username,
+                email,
+                displayName: username,
+                solaceCoins: 150,
+                donations: [],
+            };
 
-    const login = useCallback((username: string) => {
-        if (!username) return;
-        
-        // For this client-side example, we'll just create a new user or load if exists.
-        // A real app would have a backend check.
-        const storedUser = localStorage.getItem(USER_STORAGE_KEY);
-        if (storedUser) {
-            const parsedUser = JSON.parse(storedUser);
-            if (parsedUser.username.toLowerCase() === username.toLowerCase()) {
-                 saveUser(parsedUser);
-                 return;
+            // Check for referral
+            const refUsername = sessionStorage.getItem('ontherox_referrer');
+            if (refUsername) {
+                const lowerCaseRefUsername = refUsername.toLowerCase();
+                if (usersDb[lowerCaseRefUsername]) {
+                    usersDb[lowerCaseRefUsername].solaceCoins += 25;
+                    setReferralMessage(`Referral success! ${refUsername} was awarded 25 Solace Coins.`);
+                }
+                sessionStorage.removeItem('ontherox_referrer');
             }
-        }
 
-        const newUser: User = {
-            username,
-            displayName: username,
-            solaceCoins: 150,
-            donations: [],
-        };
-        saveUser(newUser);
+            usersDb[lowerCaseUsername] = newUser;
+            setUser(newUser);
+            localStorage.setItem(CURRENT_USER_KEY, username);
+            saveUsersDb(usersDb);
+
+            // Send email notification for marketing purposes for the new user registration
+            const subject = `New Hunter Registration: ${username}`;
+            const body = `A new user has registered for the On The RoX Sk8Hunt!\n\nUsername: ${username}\nEmail: ${email}\nTimestamp: ${new Date().toLocaleString()}`;
+            const mailtoLink = `mailto:ontherox2026@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoLink, '_blank');
+        }
     }, []);
 
     const logout = useCallback(() => {
-        saveUser(null);
+        setUser(null);
+        localStorage.removeItem(CURRENT_USER_KEY);
     }, []);
 
     const updateUser = useCallback((data: Partial<Omit<User, 'username'>>) => {
         setUser(currentUser => {
             if (!currentUser) return null;
             const updatedUser = { ...currentUser, ...data };
-            saveUser(updatedUser);
+            
+            const usersDb = getUsersDb();
+            usersDb[updatedUser.username.toLowerCase()] = updatedUser;
+            saveUsersDb(usersDb);
+
             return updatedUser;
         });
     }, []);
@@ -88,9 +139,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 ...currentUser,
                 donations: [newDonation, ...currentUser.donations],
             };
-            saveUser(updatedUser);
+            
+            const usersDb = getUsersDb();
+            usersDb[updatedUser.username.toLowerCase()] = updatedUser;
+            saveUsersDb(usersDb);
+
             return updatedUser;
         });
+    }, []);
+    
+    const clearReferralMessage = useCallback(() => {
+        setReferralMessage(null);
     }, []);
 
     const value = {
@@ -99,7 +158,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         logout,
         updateUser,
-        addDonationToProfile
+        addDonationToProfile,
+        referralMessage,
+        clearReferralMessage,
     };
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
