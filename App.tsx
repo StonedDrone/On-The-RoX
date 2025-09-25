@@ -14,15 +14,23 @@ import type { DonationToast as DonationToastType } from './types';
 import { useCountdown } from './hooks/useCountdown';
 import { SoundtrackPlayer } from './components/SoundtrackPlayer';
 import { SolaceCoinPage } from './components/SolaceCoinPage';
+import { ProfilePage } from './components/ProfilePage';
+import { UserProvider, useUser } from './hooks/useUser';
+import { AuthModal } from './components/AuthModal';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
     const { totalAmount, donorCount, donations, addDonation } = useDonationData();
+    const { user, addDonationToProfile } = useUser();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [toasts, setToasts] = useState<DonationToastType[]>([]);
     const countdown = useCountdown(TARGET_DATE);
 
     const handleAddDonation = (amount: number, name: string, avatarUrl?: string) => {
         addDonation(amount, name, avatarUrl);
+        if (user) {
+            addDonationToProfile({ amount });
+        }
         const newToast: DonationToastType = {
             id: Date.now(),
             name: name || 'Anonymous',
@@ -58,11 +66,12 @@ const App: React.FC = () => {
                     </svg>
                 </div>
 
-                <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+                <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} onLoginClick={() => setIsAuthModalOpen(true)} />
                 <main className="flex-grow pt-20">
                     <ReactRouterDom.Routes>
                         <ReactRouterDom.Route path="/hunt" element={<HuntPage />} />
                         <ReactRouterDom.Route path="/solace" element={<SolaceCoinPage />} />
+                        <ReactRouterDom.Route path="/profile" element={<ProfilePage />} />
                         <ReactRouterDom.Route path="/" element={
                             <DonationPage
                                 totalAmount={totalAmount}
@@ -83,7 +92,16 @@ const App: React.FC = () => {
                     <DonationToast key={toast.id} toast={toast} onDismiss={() => removeToast(toast.id)} />
                 ))}
             </div>
+            {isAuthModalOpen && <AuthModal onClose={() => setIsAuthModalOpen(false)} />}
         </ReactRouterDom.HashRouter>
+    );
+}
+
+const App: React.FC = () => {
+    return (
+        <UserProvider>
+            <AppContent />
+        </UserProvider>
     );
 };
 

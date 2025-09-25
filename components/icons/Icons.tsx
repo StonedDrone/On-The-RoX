@@ -32,12 +32,6 @@ export const CreditCardIcon: React.FC<IconProps> = (props) => (
   </svg>
 );
 
-export const VenmoIcon: React.FC<IconProps> = (props) => (
-    <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-        <path d="M16.9,4.3c-0.2-1.8-1.5-3.3-3.4-3.7C12.1,0.2,9.3,1,7.5,3C5.7,5,5.1,7.8,6.1,10.2c1.2,3,4.2,6.3,4.3,6.3c0.1,0.1,0.2,0.1,0.3,0.1 s0.2,0,0.3-0.1c0,0,3.1-3.3,4.3-6.3C16.4,7.8,17,5.8,16.9,4.3z M12,11.3c-1.8,0-3.3-1.5-3.3-3.3s1.5-3.3,3.3-3.3s3.3,1.5,3.3,3.3 S13.8,11.3,12,11.3z" />
-    </svg>
-);
-
 export const CashAppIcon: React.FC<IconProps> = (props) => (
     <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
         <path d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z M13.5,16h-3v-2.5H9V12h1.5V9.5H9V8h4.5 c0.828,0,1.5,0.672,1.5,1.5v5C15,15.328,14.328,16,13.5,16z M13.5,11h-3V9.5h3V11z"/>
@@ -133,4 +127,16 @@ export const SlotMachineIcon: React.FC<IconProps> = (props) => (
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m12 4a2 2 0 100-4m0 4a2 2 0 110-4M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
   </svg>
+);
+
+export const UserIcon: React.FC<IconProps> = (props) => (
+    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+    </svg>
+);
+
+export const LogoutIcon: React.FC<IconProps> = (props) => (
+    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+    </svg>
 );

@@ -3,7 +3,7 @@ import { CloseIcon } from './icons/Icons';
 
 interface QRCodeModalProps {
     content: {
-        type: 'venmo' | 'cashapp';
+        type: 'cashapp';
         qr: string;
     };
     onClose: () => void;

@@ -1,22 +1,35 @@
-import React, { useState } from 'react';
-import { PRESET_AMOUNTS, VENMO_QR_URL, CASHAPP_QR_URL } from '../constants';
+import React, { useState, useEffect } from 'react';
+import { PRESET_AMOUNTS, CASHAPP_QR_URL } from '../constants';
 import { QRCodeModal } from './QRCodeModal';
 import { ConfirmationModal } from './ConfirmationModal';
-import { VenmoIcon, CashAppIcon, UploadIcon, CloseIcon } from './icons/Icons';
+import { CashAppIcon, UploadIcon, CloseIcon } from './icons/Icons';
+import { useUser } from '../hooks/useUser';
 
 interface DonationFormProps {
     addDonation: (amount: number, name: string, avatarUrl?: string) => void;
 }
 
 export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
+    const { user, isLoggedIn } = useUser();
     const [amount, setAmount] = useState<number | ''>(50);
     const [name, setName] = useState('');
     const [isAnonymous, setIsAnonymous] = useState(false);
-    const [modalContent, setModalContent] = useState<{ type: 'venmo' | 'cashapp'; qr: string; } | null>(null);
+    const [modalContent, setModalContent] = useState<{ type: 'cashapp'; qr: string; } | null>(null);
     const [error, setError] = useState('');
     const [avatar, setAvatar] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
     const [stagedDonation, setStagedDonation] = useState<{ amount: number; name: string; avatarUrl?: string; } | null>(null);
+
+    useEffect(() => {
+        if (isLoggedIn && user) {
+            setName(user.displayName);
+            setAvatar(user.avatarUrl || null);
+            setFileName(null); // Don't show a filename for profile avatars
+        } else {
+            setName('');
+            setAvatar(null);
+        }
+    }, [isLoggedIn, user]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -39,18 +52,20 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
         }
     };
 
-    const handlePayment = (paymentMethod: 'venmo' | 'cashapp') => {
+    const handlePayment = () => {
         if (typeof amount !== 'number' || amount <= 0) {
             setError('Please enter a valid bounty amount.');
             return;
         }
         setError('');
 
-        const donorName = isAnonymous ? 'Anonymous' : (name || 'JayNdaboX Fan');
+        const donorName = isAnonymous ? 'Anonymous' : (isLoggedIn && user ? user.displayName : (name || 'JayNdaboX Fan'));
         const donationAmount = amount;
+        const donorAvatar = isAnonymous ? undefined : (isLoggedIn && user ? user.avatarUrl : avatar) ?? undefined;
+
 
         // Stage the donation for confirmation
-        setStagedDonation({ amount: donationAmount, name: donorName, avatarUrl: avatar ?? undefined });
+        setStagedDonation({ amount: donationAmount, name: donorName, avatarUrl: donorAvatar });
 
         // Send email receipt for business records
         const subject = `New On The RoX Bounty: $${donationAmount} from ${donorName}`;
@@ -61,7 +76,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
             `- Amount: $${donationAmount.toLocaleString()}`,
             `- Name: ${donorName}`,
             `- Timestamp: ${new Date().toLocaleString()}`,
-            `- Payment Method: ${paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)}`,
+            `- Payment Method: Cash App`,
             ``,
             `This is an automated receipt for business records.`
         ];
@@ -71,8 +86,8 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
         window.open(mailtoLink, '_blank');
 
         // Show QR code modal
-        const qrUrl = paymentMethod === 'venmo' ? VENMO_QR_URL : CASHAPP_QR_URL;
-        setModalContent({ type: paymentMethod, qr: qrUrl });
+        const qrUrl = CASHAPP_QR_URL;
+        setModalContent({ type: 'cashapp', qr: qrUrl });
     };
     
     const handleAmountClick = (presetAmount: number) => {
@@ -102,9 +117,11 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
         // Reset form and state
         setStagedDonation(null);
         setAmount(50);
-        setName('');
+        if (!isLoggedIn) {
+            setName('');
+            removeAvatar();
+        }
         setIsAnonymous(false);
-        removeAvatar();
     };
 
     const handleCancelDonation = () => {
@@ -160,7 +177,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                         id="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        disabled={isAnonymous}
+                        disabled={isAnonymous || isLoggedIn}
                         className="w-full bg-zinc-900 border border-primary/20 rounded-lg py-3 px-4 text-light disabled:opacity-50 focus:ring-primary focus:border-primary"
                         placeholder="JayNdaboX Fan"
                     />
@@ -178,41 +195,36 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
                     </label>
                 </div>
                 
-                <div className="mb-8">
-                    <label className="block text-sm font-medium text-light/80 mb-2">Add a Profile Picture (Optional)</label>
-                    <div className="mt-1 flex items-center">
-                        <label htmlFor="avatar-upload" className="cursor-pointer bg-zinc-900 border border-primary/20 rounded-md py-2 px-3 text-sm font-medium text-light hover:bg-zinc-800 flex items-center transition-colors">
-                            <UploadIcon className="w-5 h-5 mr-2" />
-                            <span>Choose File</span>
-                        </label>
-                        <input id="avatar-upload" name="avatar-upload" type="file" className="sr-only" accept="image/*" onChange={handleFileChange} />
-                    </div>
-                    {avatar && fileName && (
-                        <div className="mt-3 flex items-center">
-                            <img src={avatar} alt="Avatar preview" className="w-10 h-10 rounded-full object-cover" />
-                            <span className="ml-3 text-sm text-light/80 truncate">{fileName}</span>
-                            <button type="button" onClick={removeAvatar} className="ml-3 text-red-400 hover:text-red-300 transition-colors" aria-label="Remove image">
-                                <CloseIcon className="w-5 h-5"/>
-                            </button>
+                {!isLoggedIn && (
+                    <div className="mb-8">
+                        <label className="block text-sm font-medium text-light/80 mb-2">Add a Profile Picture (Optional)</label>
+                        <div className="mt-1 flex items-center">
+                            <label htmlFor="avatar-upload" className="cursor-pointer bg-zinc-900 border border-primary/20 rounded-md py-2 px-3 text-sm font-medium text-light hover:bg-zinc-800 flex items-center transition-colors">
+                                <UploadIcon className="w-5 h-5 mr-2" />
+                                <span>Choose File</span>
+                            </label>
+                            <input id="avatar-upload" name="avatar-upload" type="file" className="sr-only" accept="image/*" onChange={handleFileChange} />
                         </div>
-                    )}
-                </div>
+                        {avatar && fileName && (
+                            <div className="mt-3 flex items-center">
+                                <img src={avatar} alt="Avatar preview" className="w-10 h-10 rounded-full object-cover" />
+                                <span className="ml-3 text-sm text-light/80 truncate">{fileName}</span>
+                                <button type="button" onClick={removeAvatar} className="ml-3 text-red-400 hover:text-red-300 transition-colors" aria-label="Remove image">
+                                    <CloseIcon className="w-5 h-5"/>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
+
 
                 <div className="space-y-4 pt-4 border-t border-primary/10">
                     <p className="text-center text-sm font-medium text-light/80">Complete your bounty using:</p>
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                     <div className="flex justify-center">
                         <button 
                             type="button" 
-                            onClick={() => handlePayment('venmo')} 
-                            className="w-full flex items-center justify-center bg-zinc-800 text-light font-bold py-4 px-4 rounded-lg transition-all duration-300 hover:scale-105 border-2 border-purple hover:bg-purple/20"
-                            style={{ boxShadow: '0 0 12px #BF40BF' }}
-                        >
-                            <VenmoIcon className="w-6 h-6 mr-2" /> Pay with Venmo
-                        </button>
-                        <button 
-                            type="button" 
-                            onClick={() => handlePayment('cashapp')} 
-                            className="w-full flex items-center justify-center bg-dark-accent text-light font-bold py-4 px-4 rounded-lg transition-all duration-300 hover:scale-105 border-2 border-gold hover:bg-gold/20"
+                            onClick={handlePayment} 
+                            className="w-full sm:w-auto flex items-center justify-center bg-dark-accent text-light font-bold py-4 px-8 rounded-lg transition-all duration-300 hover:scale-105 border-2 border-gold hover:bg-gold/20"
                             style={{ boxShadow: '0 0 12px #FFD700' }}
                         >
                             <CashAppIcon className="w-6 h-6 mr-2 text-secondary" /> Pay with Cash App

@@ -3,6 +3,7 @@ import {
     CoinIcon, UpgradeIcon, RewardIcon, DonateIcon, SecretIcon,
     QuestIcon, ChallengeIcon, CommunityIcon, SlotMachineIcon
 } from './icons/Icons';
+import { useUser } from '../hooks/useUser';
 
 const CoinRain: React.FC = () => {
     // Fix: Use React.ReactElement instead of JSX.Element to resolve namespace issue.
@@ -37,8 +38,13 @@ const ActionCard: React.FC<{ icon: React.ReactNode; title: string; children: Rea
 );
 
 export const SolaceCoinPage: React.FC = () => {
+    const { user } = useUser();
     const [isFlipped, setIsFlipped] = useState(false);
     const [isRaining, setIsRaining] = useState(false);
+    
+    const userCoins = user ? user.solaceCoins : 150;
+    const maxDisplayCoins = 1000; // An arbitrary max for the progress bar visuals
+    const coinPercentage = Math.min((userCoins / maxDisplayCoins) * 100, 100);
 
     const spendActions = [
         { icon: <UpgradeIcon className="w-6 h-6" />, title: 'Unlock Skins & Avatars', description: 'Trick out your profile, board, or mask.' },
@@ -94,8 +100,8 @@ export const SolaceCoinPage: React.FC = () => {
                         <h3 className="text-lg font-bold text-light">Your Coin Stash</h3>
                         <p className="text-sm text-light/70 mb-3">Your journey starts here.</p>
                         <div className="w-full bg-dark-accent rounded-full h-6 border-2 border-gold/50">
-                            <div className="bg-gold h-full rounded-full flex items-center justify-center" style={{ width: `15%` }}>
-                                <span className="text-xs font-bold text-dark">150 / 1000 SC</span>
+                            <div className="bg-gold h-full rounded-full flex items-center justify-center transition-all duration-500" style={{ width: `${coinPercentage}%` }}>
+                                <span className="text-xs font-bold text-dark">{userCoins.toLocaleString()} / {maxDisplayCoins.toLocaleString()} SC</span>
                             </div>
                         </div>
                     </div>
@@ -106,7 +112,7 @@ export const SolaceCoinPage: React.FC = () => {
                 <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-primary/20 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                     <h2 className="text-2xl font-bold text-primary mb-6">What Can You Do With Them?</h2>
                     <div className="space-y-6">
-                        {spendActions.map(action => <ActionCard key={action.title} icon={action.icon} title={action.title}>{action.description}</ActionCard>)}
+                        {spendActions.map(action => <ActionCard key={action.title} icon={action.icon} title={action.title}>{action.description}</Action-card>)}
                     </div>
                 </div>
                 <div 
@@ -117,7 +123,7 @@ export const SolaceCoinPage: React.FC = () => {
                 >
                     <h2 className="text-2xl font-bold text-secondary mb-6">How Do You Earn Them?</h2>
                     <div className="space-y-6">
-                        {earnActions.map(action => <ActionCard key={action.title} icon={action.icon} title={action.title}>{action.description}</ActionCard>)}
+                        {earnActions.map(action => <ActionCard key={action.title} icon={action.icon} title={action.title}>{action.description}</Action-card>)}
                     </div>
                 </div>
             </div>

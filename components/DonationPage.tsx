@@ -8,6 +8,7 @@ import { RecentDonors } from './RecentDonors';
 import { SocialShare } from './SocialShare'; // Import the new component
 import { TARGET_DATE } from '../constants';
 import { CauseDivider } from './CauseDivider';
+import { useUser } from '../hooks/useUser';
 
 interface DonationPageProps {
     totalAmount: number;
@@ -18,6 +19,8 @@ interface DonationPageProps {
 }
 
 export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCount, donations, addDonation, goal }) => {
+    const { user } = useUser();
+    
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="text-center animate-fade-in-up">
@@ -39,7 +42,7 @@ export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCo
                  <ReactRouterDom.Link to="/solace" className="inline-block bg-dark-accent/50 backdrop-blur-sm rounded-lg p-4 border border-gold/30 group hover:border-gold transition-colors duration-300">
                     <p className="text-lg font-semibold">
                         <span className="text-2xl mr-2">💰</span>
-                        You have <span className="text-gold font-bold">150 Solace Coins</span> waiting for you.
+                        You have <span className="text-gold font-bold">{user ? user.solaceCoins.toLocaleString() : 150} Solace Coins</span> waiting for you.
                     </p>
                     <p className="text-sm text-gold/80 group-hover:text-gold transition-colors">Click here to learn more!</p>
                 </ReactRouterDom.Link>

@@ -6,6 +6,19 @@ export interface Donation {
     avatarUrl?: string;
 }
 
+export interface UserDonation {
+    amount: number;
+    timestamp: Date;
+}
+
+export interface User {
+    username: string;
+    displayName: string;
+    avatarUrl?: string;
+    solaceCoins: number;
+    donations: UserDonation[];
+}
+
 export interface CountdownState {
     days: number;
     hours: number;
@@ -13,7 +26,6 @@ export interface CountdownState {
     seconds: number;
 }
 
-// Fix: Add missing Hunter interface based on its usage in HunterCard.tsx
 export interface Hunter {
     avatarUrl: string;
     name: string;
