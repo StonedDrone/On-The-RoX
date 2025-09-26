@@ -18,6 +18,7 @@ import { UserProvider, useUser } from './hooks/useUser';
 import { AuthModal } from './components/AuthModal';
 import { CoinIcon } from './components/icons/Icons';
 import { TermsPage } from './components/TermsPage';
+import { FaqPage } from './components/FaqPage';
 
 // New generic toast component for informational messages like referrals
 const InfoToast: React.FC<{ message: string; onDismiss: () => void; }> = ({ message, onDismiss }) => {
@@ -121,6 +122,7 @@ const AppContent: React.FC = () => {
                         <ReactRouterDom.Route path="/solace" element={<SolaceCoinPage />} />
                         <ReactRouterDom.Route path="/profile" element={<ProfilePage />} />
                         <ReactRouterDom.Route path="/terms" element={<TermsPage />} />
+                        <ReactRouterDom.Route path="/faq" element={<FaqPage />} />
                         <ReactRouterDom.Route path="/" element={
                             <DonationPage
                                 totalAmount={totalAmount}
