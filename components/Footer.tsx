@@ -1,4 +1,5 @@
 import React from 'react';
+import * as ReactRouterDom from 'react-router-dom';
 import { LogoIcon } from './icons/Icons';
 
 export const Footer: React.FC = () => {
@@ -23,7 +24,13 @@ export const Footer: React.FC = () => {
                     </div>
                 </div>
 
-                <p className="mt-8 text-xs">&copy; {new Date().getFullYear()} On The RoX. All rights reserved.</p>
+                <div className="mt-8 text-xs flex justify-center items-center space-x-4">
+                    <span>&copy; {new Date().getFullYear()} On The RoX. All rights reserved.</span>
+                    <span className="text-light/30">|</span>
+                    <ReactRouterDom.Link to="/terms" className="hover:text-light transition-colors">
+                        Terms & Conditions
+                    </ReactRouterDom.Link>
+                </div>
             </div>
         </footer>
     );

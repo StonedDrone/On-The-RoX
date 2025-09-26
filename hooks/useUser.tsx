@@ -74,7 +74,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         if (usersDb[lowerCaseUsername]) {
             // Existing user login
-            setUser(usersDb[lowerCaseUsername]);
+            const existingUser = usersDb[lowerCaseUsername];
+            existingUser.donations = existingUser.donations.map((d: any) => ({...d, timestamp: new Date(d.timestamp)}));
+            setUser(existingUser);
             localStorage.setItem(CURRENT_USER_KEY, username);
         } else {
             // New user registration

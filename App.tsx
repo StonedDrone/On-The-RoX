@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 // Fix: Use namespace import for react-router-dom to fix module resolution errors.
 import * as ReactRouterDom from 'react-router-dom';
@@ -18,6 +17,7 @@ import { ProfilePage } from './components/ProfilePage';
 import { UserProvider, useUser } from './hooks/useUser';
 import { AuthModal } from './components/AuthModal';
 import { CoinIcon } from './components/icons/Icons';
+import { TermsPage } from './components/TermsPage';
 
 // New generic toast component for informational messages like referrals
 const InfoToast: React.FC<{ message: string; onDismiss: () => void; }> = ({ message, onDismiss }) => {
@@ -120,6 +120,7 @@ const AppContent: React.FC = () => {
                         <ReactRouterDom.Route path="/hunt" element={<HuntPage />} />
                         <ReactRouterDom.Route path="/solace" element={<SolaceCoinPage />} />
                         <ReactRouterDom.Route path="/profile" element={<ProfilePage />} />
+                        <ReactRouterDom.Route path="/terms" element={<TermsPage />} />
                         <ReactRouterDom.Route path="/" element={
                             <DonationPage
                                 totalAmount={totalAmount}

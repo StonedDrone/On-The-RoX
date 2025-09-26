@@ -30,9 +30,9 @@ export const ProfilePage: React.FC = () => {
     useEffect(() => {
         if (!isLoggedIn) {
             navigate('/'); // Redirect to home if not logged in
-        } else {
-            setDisplayName(user?.displayName || '');
-            setAvatar(user?.avatarUrl || '');
+        } else if (user) {
+            setDisplayName(user.displayName);
+            setAvatar(user.avatarUrl || '');
         }
     }, [user, isLoggedIn, navigate]);
 
@@ -55,7 +55,8 @@ export const ProfilePage: React.FC = () => {
 
     const handleShare = () => {
         if (!user) return;
-        const profileUrl = `${window.location.origin}${window.location.pathname}#/?ref=${user.username}`;
+        const baseUrl = window.location.href.split('#')[0];
+        const profileUrl = `${baseUrl}#/?ref=${user.username}`;
         navigator.clipboard.writeText(profileUrl).then(() => {
             setCopyMessage('Referral link copied!');
             setTimeout(() => setCopyMessage(''), 3000);
@@ -65,6 +66,7 @@ export const ProfilePage: React.FC = () => {
             setTimeout(() => setCopyMessage(''), 3000);
         });
     };
+
 
     if (!user) {
         return null; // Or a loading spinner

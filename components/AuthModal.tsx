@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as ReactRouterDom from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
 import { CloseIcon, UserIcon } from './icons/Icons';
 
@@ -9,6 +10,7 @@ interface AuthModalProps {
 export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [agreedToTerms, setAgreedToTerms] = useState(false);
     const { login } = useUser();
 
     useEffect(() => {
@@ -25,11 +27,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (username.trim() && email.trim()) {
+        if (username.trim() && email.trim() && agreedToTerms) {
             login(username.trim(), email.trim());
             onClose();
         }
     };
+
+    const isFormValid = username.trim() !== '' && email.trim() !== '' && agreedToTerms;
 
     return (
         <div 
@@ -79,9 +83,26 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
                                 required
                             />
                         </div>
+                         <div className="text-left">
+                            <label className="flex items-start space-x-2 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    checked={agreedToTerms}
+                                    onChange={(e) => setAgreedToTerms(e.target.checked)}
+                                    className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary shrink-0"
+                                />
+                                <span className="text-sm text-light/80">
+                                    I agree to the{' '}
+                                    <ReactRouterDom.Link to="/terms" target="_blank" rel="noopener noreferrer" className="underline text-secondary hover:text-primary transition-colors">
+                                        Terms & Conditions
+                                    </ReactRouterDom.Link>.
+                                </span>
+                            </label>
+                        </div>
                         <button
                             type="submit"
-                            className="w-full bg-primary text-light font-bold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-accent focus:ring-primary"
+                            disabled={!isFormValid}
+                            className="w-full bg-primary text-light font-bold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-accent focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                         >
                             Login / Register
                         </button>

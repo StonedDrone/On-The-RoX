@@ -21,7 +21,7 @@ const CoinRain: React.FC = () => {
         setCoins(coinElements);
     }, []);
 
-    return <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">{coins}</div>;
+    return <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">{coins}</div>;
 };
 
 
@@ -112,7 +112,7 @@ export const SolaceCoinPage: React.FC = () => {
                 <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-primary/20 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                     <h2 className="text-2xl font-bold text-primary mb-6">What Can You Do With Them?</h2>
                     <div className="space-y-6">
-                        {spendActions.map(action => <ActionCard key={action.title} icon={action.icon} title={action.title}>{action.description}</Action-card>)}
+                        {spendActions.map(action => <ActionCard key={action.title} icon={action.icon} title={action.title}>{action.description}</ActionCard>)}
                     </div>
                 </div>
                 <div 
@@ -123,7 +123,7 @@ export const SolaceCoinPage: React.FC = () => {
                 >
                     <h2 className="text-2xl font-bold text-secondary mb-6">How Do You Earn Them?</h2>
                     <div className="space-y-6">
-                        {earnActions.map(action => <ActionCard key={action.title} icon={action.icon} title={action.title}>{action.description}</Action-card>)}
+                        {earnActions.map(action => <ActionCard key={action.title} icon={action.icon} title={action.title}>{action.description}</ActionCard>)}
                     </div>
                 </div>
             </div>
