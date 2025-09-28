@@ -14,7 +14,8 @@ export const Header: React.FC<HeaderProps> = memo(({ isMenuOpen, setIsMenuOpen, 
     const { isLoggedIn, user, logout } = useUser();
 
     const navLinks = [
-        { path: '/', name: 'Bounty' },
+        { path: '/', name: 'Home' },
+        { path: '/wanted', name: 'Wanted' },
         { path: '/hunt', name: 'The Hunt' },
         { path: '/solace', name: 'Solace Coins' },
         { path: '/faq', name: 'FAQ' },

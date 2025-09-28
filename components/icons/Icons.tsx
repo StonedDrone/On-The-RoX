@@ -38,6 +38,12 @@ export const CashAppIcon: React.FC<IconProps> = (props) => (
     </svg>
 );
 
+export const VenmoIcon: React.FC<IconProps> = (props) => (
+    <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+        <path d="M18.23,2.15H14.16L12,14.63l-1.07-6.21C10.64,6.72,10.1,5,8.83,5H4.1L3.06,12.55l2,.34,1-6.17H7.5c.5,0,.66.39.52,1.13L6.2,16.48a1.32,1.32,0,0,0,1.29,1.52H9.4c1.33,0,1.82-1.5,2.18-3.64l2.45-10.4,2.2.39Z"/>
+    </svg>
+);
+
 export const HeartIcon: React.FC<IconProps> = (props) => (
     <svg fill="currentColor" viewBox="0 0 20 20" {...props}>
         <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
@@ -138,5 +144,18 @@ export const UserIcon: React.FC<IconProps> = (props) => (
 export const LogoutIcon: React.FC<IconProps> = (props) => (
     <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" {...props}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+    </svg>
+);
+
+// Fix: Add PlusIcon and MinusIcon components to resolve import errors in other components.
+export const PlusIcon: React.FC<IconProps> = (props) => (
+    <svg fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+    </svg>
+);
+
+export const MinusIcon: React.FC<IconProps> = (props) => (
+    <svg fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M20 12H4" />
     </svg>
 );

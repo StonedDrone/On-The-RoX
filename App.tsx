@@ -21,6 +21,8 @@ const SolaceCoinPage = lazy(() => import('./components/SolaceCoinPage'));
 const ProfilePage = lazy(() => import('./components/ProfilePage'));
 const TermsPage = lazy(() => import('./components/TermsPage'));
 const FaqPage = lazy(() => import('./components/FaqPage'));
+const WantedPage = lazy(() => import('./components/WantedPage'));
+
 
 // --- Specialized Child Components for better structure ---
 
@@ -157,6 +159,7 @@ const AppContent: React.FC = () => {
                     <Suspense fallback={<LoadingSpinner />}>
                         <ReactRouterDom.Routes>
                             <ReactRouterDom.Route path="/hunt" element={<HuntPage />} />
+                            <ReactRouterDom.Route path="/wanted" element={<WantedPage totalAmount={totalAmount} />} />
                             <ReactRouterDom.Route path="/solace" element={<SolaceCoinPage />} />
                             <ReactRouterDom.Route path="/profile" element={<ProfilePage />} />
                             <ReactRouterDom.Route path="/terms" element={<TermsPage />} />

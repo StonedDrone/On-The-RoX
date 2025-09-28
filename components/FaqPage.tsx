@@ -1,16 +1,5 @@
 import React, { useState, memo } from 'react';
-
-// Icons for accordion toggle
-const PlusIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-    </svg>
-);
-const MinusIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M20 12H4" />
-    </svg>
-);
+import { PlusIcon, MinusIcon } from './icons/Icons';
 
 const faqData = [
     { question: "1. What is On The RoX: Sk8Hunt?", answer: "It’s the first‑ever live E‑Sk8 manhunt blended with AR + music culture. 6 Hunters hit the streets chasing down JayNdaboX, while Watchers play along with the official JayNdaboX.IcU app, trying to track and intercept him too." },

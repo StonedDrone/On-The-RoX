@@ -33,6 +33,7 @@ export interface Hunter {
     alias: string;
     bio: string;
     esk8: string;
+    gps_enabled: boolean;
 }
 
 export interface DonationToast {

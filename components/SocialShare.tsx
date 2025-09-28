@@ -44,11 +44,11 @@ export const SocialShare: React.FC = memo(() => {
                 onClick={handleFuelClick}
                 className="text-dark bg-secondary font-bold py-4 px-10 rounded-lg text-xl uppercase tracking-wider transition-all duration-300 hover:scale-105 animate-pulse-glow-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark focus:ring-secondary"
             >
-                Fuel the Hunt
+                PLACE A BOUNTY
             </button>
             
             <div>
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-secondary mb-4 text-center">Follow The Journey</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-widest text-secondary mb-4 text-center">TRACK THE TARGET</h3>
                 <div className="flex items-center space-x-4">
                     <ActionButton href={SOCIAL_PROFILES.facebook} label="Facebook Profile">
                         <FacebookIcon className="w-6 h-6" />

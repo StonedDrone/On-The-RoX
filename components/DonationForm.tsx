@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { PRESET_AMOUNTS, CASHAPP_QR_URL } from '../constants';
+import { PRESET_AMOUNTS, CASHAPP_QR_URL, VENMO_QR_URL } from '../constants';
 import { QRCodeModal } from './QRCodeModal';
 import { ConfirmationModal } from './ConfirmationModal';
-import { CashAppIcon, UploadIcon, CloseIcon } from './icons/Icons';
+import { CashAppIcon, UploadIcon, CloseIcon, VenmoIcon } from './icons/Icons';
 import { useUser } from '../hooks/useUser';
 
 interface DonationFormProps {
@@ -14,7 +14,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
     const [amount, setAmount] = useState<number | ''>(50);
     const [name, setName] = useState('');
     const [isAnonymous, setIsAnonymous] = useState(false);
-    const [modalContent, setModalContent] = useState<{ type: 'cashapp'; qr: string; } | null>(null);
+    const [modalContent, setModalContent] = useState<{ type: 'cashapp' | 'venmo'; qr: string; } | null>(null);
     const [error, setError] = useState('');
     const [avatar, setAvatar] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
@@ -52,7 +52,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
         }
     };
 
-    const handlePayment = () => {
+    const handlePayment = (method: 'cashapp' | 'venmo') => {
         if (typeof amount !== 'number' || amount <= 0) {
             setError('Please enter a valid bounty amount.');
             return;
@@ -76,7 +76,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
             `- Amount: $${donationAmount.toLocaleString()}`,
             `- Name: ${donorName}`,
             `- Timestamp: ${new Date().toLocaleString()}`,
-            `- Payment Method: Cash App`,
+            `- Payment Method: ${method === 'cashapp' ? 'Cash App' : 'Venmo'}`,
             ``,
             `This is an automated receipt for business records.`
         ];
@@ -86,8 +86,8 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
         window.open(mailtoLink, '_blank');
 
         // Show QR code modal
-        const qrUrl = CASHAPP_QR_URL;
-        setModalContent({ type: 'cashapp', qr: qrUrl });
+        const qrUrl = method === 'cashapp' ? CASHAPP_QR_URL : VENMO_QR_URL;
+        setModalContent({ type: method, qr: qrUrl });
     };
     
     const handleAmountClick = (presetAmount: number) => {
@@ -220,14 +220,22 @@ export const DonationForm: React.FC<DonationFormProps> = ({ addDonation }) => {
 
                 <div className="space-y-4 pt-4 border-t border-primary/10">
                     <p className="text-center text-sm font-medium text-light/80">Complete your bounty using:</p>
-                     <div className="flex justify-center">
+                     <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button 
                             type="button" 
-                            onClick={handlePayment} 
+                            onClick={() => handlePayment('cashapp')} 
                             className="w-full sm:w-auto flex items-center justify-center bg-dark-accent text-light font-bold py-4 px-8 rounded-lg transition-all duration-300 hover:scale-105 border-2 border-gold hover:bg-gold/20"
                             style={{ boxShadow: '0 0 12px #FFD700' }}
                         >
                             <CashAppIcon className="w-6 h-6 mr-2 text-secondary" /> Pay with Cash App
+                        </button>
+                        <button 
+                            type="button" 
+                            onClick={() => handlePayment('venmo')} 
+                            className="w-full sm:w-auto flex items-center justify-center bg-dark-accent text-light font-bold py-4 px-8 rounded-lg transition-all duration-300 hover:scale-105 border-2 border-[#008CFF] hover:bg-[#008CFF]/20"
+                            style={{ boxShadow: '0 0 12px #008CFF' }}
+                        >
+                            <VenmoIcon className="w-6 h-6 mr-2 text-[#008CFF]" /> Pay with Venmo
                         </button>
                      </div>
                 </div>

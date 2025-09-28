@@ -24,16 +24,19 @@ const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCount, do
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="text-center animate-fade-in-up">
-                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter text-light">
-                    <span className="text-primary">On The RoX</span>: Augmented Reality
-                    <span className="relative inline-block mx-2" style={{ filter: 'brightness(1.2)' }}>
-                        <span className="relative z-10">Sk8Hunt</span>
-                        <span className="absolute inset-0 text-primary animate-glitch-1" aria-hidden="true">Sk8Hunt</span>
-                        <span className="absolute inset-0 text-secondary animate-glitch-2" aria-hidden="true">Sk8Hunt</span>
+                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter text-light font-heading uppercase">
+                    On The RoX Presents:
+                    <span className="block mt-2">
+                        JayNdaboX.{' '}
+                        <span className="relative inline-block" style={{ filter: 'brightness(1.2)' }}>
+                            <span className="relative z-10 text-red-500">IcU</span>
+                            <span className="absolute inset-0 text-primary animate-glitch-1" aria-hidden="true">IcU</span>
+                            <span className="absolute inset-0 text-secondary animate-glitch-2" aria-hidden="true">IcU</span>
+                        </span>
                     </span>
                 </h1>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-light/80">
-                    Join the city-wide chase! Your bounty fuels the core hunt team and powers the grand prize jackpot. Find JayNdaboX, win real-world rewards, and support a great cause.
+                    A bounty has been issued for the capture of JayNdaboX. Your contributions increase the reward and fund the hunt. Place your bounty, track the target, and help a great cause.
                 </p>
             </div>
 

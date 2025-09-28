@@ -3,7 +3,8 @@ import { CloseIcon } from './icons/Icons';
 
 interface QRCodeModalProps {
     content: {
-        type: 'cashapp';
+        // Fix: Allow both 'cashapp' and 'venmo' as valid types to match usage in DonationForm.tsx.
+        type: 'cashapp' | 'venmo';
         qr: string;
     };
     onClose: () => void;
