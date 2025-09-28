@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 const costData = {
   "goal": 25000,
@@ -63,7 +63,7 @@ const LightbulbIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 );
 
 
-export const CostBreakdown: React.FC = () => {
+export const CostBreakdown: React.FC = memo(() => {
     return (
         <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-8 border border-primary/20 max-w-4xl mx-auto animate-pop-in">
             <h2 className="text-3xl font-bold text-center text-light mb-8">{costData.title}</h2>
@@ -124,4 +124,5 @@ export const CostBreakdown: React.FC = () => {
             </div>
         </div>
     );
-};
+});
+CostBreakdown.displayName = 'CostBreakdown';

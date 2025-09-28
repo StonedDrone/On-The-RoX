@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import type { CountdownState } from '../types';
 
 interface SoundtrackPlayerProps {
@@ -22,7 +22,7 @@ const VolumeOffIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 );
 
 
-export const SoundtrackPlayer: React.FC<SoundtrackPlayerProps> = ({ countdown }) => {
+export const SoundtrackPlayer: React.FC<SoundtrackPlayerProps> = memo(({ countdown }) => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [isMuted, setIsMuted] = useState(true);
     const [hasInteracted, setHasInteracted] = useState(false);
@@ -88,4 +88,5 @@ export const SoundtrackPlayer: React.FC<SoundtrackPlayerProps> = ({ countdown })
             </button>
         </div>
     );
-};
+});
+SoundtrackPlayer.displayName = 'SoundtrackPlayer';

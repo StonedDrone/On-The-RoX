@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { CloseIcon } from './icons/Icons';
 
 interface QRCodeModalProps {
@@ -9,7 +9,7 @@ interface QRCodeModalProps {
     onClose: () => void;
 }
 
-export const QRCodeModal: React.FC<QRCodeModalProps> = ({ content, onClose }) => {
+export const QRCodeModal: React.FC<QRCodeModalProps> = memo(({ content, onClose }) => {
     
     useEffect(() => {
         const handleEsc = (event: KeyboardEvent) => {
@@ -39,4 +39,5 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({ content, onClose }) =>
             </div>
         </div>
     );
-};
+});
+QRCodeModal.displayName = 'QRCodeModal';

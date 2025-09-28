@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 import { LogoIcon } from './icons/Icons';
 
-export const Footer: React.FC = () => {
+export const Footer: React.FC = memo(() => {
     return (
         <footer className="bg-black/30 border-t border-primary/20">
             <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-light/60">
@@ -34,4 +34,5 @@ export const Footer: React.FC = () => {
             </div>
         </footer>
     );
-}
+});
+Footer.displayName = 'Footer';

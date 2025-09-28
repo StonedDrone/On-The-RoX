@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 
 // Icons for accordion toggle
 const PlusIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
@@ -63,7 +63,7 @@ interface FaqItemProps {
     onClick: () => void;
 }
 
-const FaqItem: React.FC<FaqItemProps> = ({ question, answer, isOpen, onClick }) => {
+const FaqItem = memo<FaqItemProps>(({ question, answer, isOpen, onClick }) => {
     const cleanQuestion = question.replace(/^\d+\.\s*/, '');
 
     return (
@@ -89,10 +89,11 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, isOpen, onClick }) 
             </div>
         </div>
     );
-};
+});
+FaqItem.displayName = 'FaqItem';
 
 
-export const FaqPage: React.FC = () => {
+const FaqPage: React.FC = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     const handleToggle = (index: number) => {
@@ -124,3 +125,5 @@ export const FaqPage: React.FC = () => {
         </div>
     );
 };
+
+export default FaqPage;

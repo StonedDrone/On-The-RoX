@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import type { DonationToast as DonationToastType } from '../types';
 import { HeartIcon } from './icons/Icons';
 
@@ -7,7 +7,7 @@ interface DonationToastProps {
     onDismiss: () => void;
 }
 
-export const DonationToast: React.FC<DonationToastProps> = ({ toast, onDismiss }) => {
+export const DonationToast: React.FC<DonationToastProps> = memo(({ toast, onDismiss }) => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -33,4 +33,5 @@ export const DonationToast: React.FC<DonationToastProps> = ({ toast, onDismiss }
             </div>
         </div>
     );
-};
+});
+DonationToast.displayName = 'DonationToast';

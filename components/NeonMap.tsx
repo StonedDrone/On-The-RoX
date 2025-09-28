@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 const HeatmapPing: React.FC<{ cx: number; cy: number; delay: string; username: string; message: string; }> = ({ cx, cy, delay, username, message }) => (
     <g className="cursor-pointer">
@@ -8,7 +8,7 @@ const HeatmapPing: React.FC<{ cx: number; cy: number; delay: string; username: s
     </g>
 );
 
-export const NeonMap: React.FC = () => {
+export const NeonMap: React.FC = memo(() => {
     return (
         <svg width="100%" height="100%" viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full object-cover">
             <defs>
@@ -69,4 +69,5 @@ export const NeonMap: React.FC = () => {
             </g>
         </svg>
     );
-};
+});
+NeonMap.displayName = 'NeonMap';

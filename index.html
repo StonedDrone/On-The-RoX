@@ -36,6 +36,10 @@
                 '0%, 100%': { boxShadow: '0 0 15px #A3E635' },
                 '50%': { boxShadow: '0 0 25px #A3E635, 0 0 35px #A3E635' },
               },
+              'progress-glow': {
+                '0%, 100%': { boxShadow: '0 0 4px #EC4899, 0 0 8px #EC4899' },
+                '50%': { boxShadow: '0 0 12px #EC4899, 0 0 16px #EC4899' },
+              },
               'pop-in': {
                 '0%': { opacity: '0', transform: 'scale(0.95) translateY(10px)' },
                 '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
@@ -77,12 +81,17 @@
               'coin-fall': {
                 '0%': { transform: 'translateY(-100px) rotateZ(0deg)', opacity: '1' },
                 '100%': { transform: 'translateY(100vh) rotateZ(720deg)', opacity: '0' },
-              }
+              },
+              'spin': {
+                'from': { transform: 'rotate(0deg)' },
+                'to': { transform: 'rotate(360deg)' },
+              },
             },
             animation: {
               'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
               'pulse-glow': 'pulse-glow 2s infinite ease-in-out',
               'pulse-glow-green': 'pulse-glow-green 2s infinite ease-in-out',
+              'progress-glow': 'progress-glow 2.5s infinite ease-in-out',
               'pop-in': 'pop-in 0.5s ease-out forwards',
               'glitch-1': 'glitch-1 2s linear infinite alternate-reverse',
               'glitch-2': 'glitch-2 1.5s linear infinite alternate',
@@ -92,6 +101,7 @@
               'sparkle': 'sparkle 0.5s ease-out forwards',
               'slide-in-out': 'slide-in-out 5s ease-in-out forwards',
               'coin-fall': 'coin-fall 2s linear forwards',
+              'spin': 'spin 1s linear infinite',
             },
           },
         },

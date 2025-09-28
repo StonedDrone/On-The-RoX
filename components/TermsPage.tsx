@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 
-export const TermsPage: React.FC = () => {
+const TermsPage: React.FC = memo(() => {
     return (
         <div className="container mx-auto px-4 py-8 animate-fade-in-up">
             <div className="max-w-4xl mx-auto bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-8 border border-primary/20">
@@ -48,4 +48,7 @@ export const TermsPage: React.FC = () => {
             </div>
         </div>
     );
-};
+});
+TermsPage.displayName = 'TermsPage';
+
+export default TermsPage;

@@ -18,7 +18,7 @@ interface DonationPageProps {
     goal: number;
 }
 
-export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCount, donations, addDonation, goal }) => {
+const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCount, donations, addDonation, goal }) => {
     const { user } = useUser();
     
     return (
@@ -93,3 +93,5 @@ export const DonationPage: React.FC<DonationPageProps> = ({ totalAmount, donorCo
         </div>
     );
 };
+
+export default DonationPage;

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useCountdown } from '../hooks/useCountdown';
 
 interface CountdownProps {
     targetDate: string;
 }
 
-const CountdownItem: React.FC<{ value: number; label: string }> = ({ value, label }) => (
+const CountdownItem = memo<{ value: number; label: string }>(({ value, label }) => (
     <div className="flex flex-col items-center">
         <div 
             className="flex items-center justify-center w-20 h-20 md:w-28 md:h-28 bg-dark/50 rounded-full border-2 border-secondary"
@@ -22,9 +22,10 @@ const CountdownItem: React.FC<{ value: number; label: string }> = ({ value, labe
         </div>
         <span className="mt-3 text-xs md:text-sm font-medium uppercase text-light/60 tracking-wider">{label}</span>
     </div>
-);
+));
+CountdownItem.displayName = 'CountdownItem';
 
-export const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
+export const Countdown: React.FC<CountdownProps> = memo(({ targetDate }) => {
     const { days, hours, minutes, seconds } = useCountdown(targetDate);
 
     return (
@@ -38,4 +39,5 @@ export const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
             </div>
         </div>
     );
-};
+});
+Countdown.displayName = 'Countdown';

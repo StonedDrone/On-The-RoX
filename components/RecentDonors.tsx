@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import type { Donation } from '../types';
 import { HeartIcon } from './icons/Icons';
 
@@ -23,7 +23,7 @@ const timeAgo = (date: Date): string => {
 };
 
 
-export const RecentDonors: React.FC<RecentDonorsProps> = ({ donations }) => {
+export const RecentDonors: React.FC<RecentDonorsProps> = memo(({ donations }) => {
     return (
         <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-8 border border-primary/20 h-full">
             <h2 className="text-2xl font-bold text-light mb-6">Bounty Board</h2>
@@ -53,4 +53,5 @@ export const RecentDonors: React.FC<RecentDonorsProps> = ({ donations }) => {
             </div>
         </div>
     );
-};
+});
+RecentDonors.displayName = 'RecentDonors';

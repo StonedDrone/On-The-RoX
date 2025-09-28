@@ -1,10 +1,8 @@
-
-
-import React from 'react';
+import React, { memo } from 'react';
 import { FacebookIcon, TwitterIcon, InstagramIcon, LinkedInIcon } from './icons/Icons';
 import { SOCIAL_PROFILES } from '../constants';
 
-export const SocialShare: React.FC = () => {
+export const SocialShare: React.FC = memo(() => {
     
     const handleFuelClick = () => {
         const donationSection = document.getElementById('donation-form-section');
@@ -20,7 +18,7 @@ export const SocialShare: React.FC = () => {
         label: string;
     }> = ({ href, onClick, children, label }) => {
         const commonProps = {
-            className: "w-12 h-12 flex items-center justify-center bg-dark-accent rounded-full border-2 border-primary/20 text-light/80 hover:text-light hover:border-primary hover:scale-110 transition-all duration-300",
+            className: "w-12 h-12 flex items-center justify-center bg-dark-accent rounded-full border-2 border-primary/20 text-light/80 hover:text-light hover:border-primary hover:scale-110 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark focus:ring-primary",
             "aria-label": label,
             title: label,
         };
@@ -44,7 +42,7 @@ export const SocialShare: React.FC = () => {
         <div className="flex flex-col items-center justify-center animate-fade-in-up space-y-8" style={{animationDelay: '200ms'}}>
             <button
                 onClick={handleFuelClick}
-                className="text-dark bg-secondary font-bold py-4 px-10 rounded-lg text-xl uppercase tracking-wider transition-all duration-300 hover:scale-105 animate-pulse-glow-green"
+                className="text-dark bg-secondary font-bold py-4 px-10 rounded-lg text-xl uppercase tracking-wider transition-all duration-300 hover:scale-105 animate-pulse-glow-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark focus:ring-secondary"
             >
                 Fuel the Hunt
             </button>
@@ -68,4 +66,5 @@ export const SocialShare: React.FC = () => {
             </div>
         </div>
     );
-};
+});
+SocialShare.displayName = 'SocialShare';

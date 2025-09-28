@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { CloseIcon, HeartIcon } from './icons/Icons';
 
 interface ConfirmationModalProps {
@@ -10,7 +10,7 @@ interface ConfirmationModalProps {
     onConfirm: () => void;
 }
 
-export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ details, onClose, onConfirm }) => {
+export const ConfirmationModal: React.FC<ConfirmationModalProps> = memo(({ details, onClose, onConfirm }) => {
     
     useEffect(() => {
         const handleEsc = (event: KeyboardEvent) => {
@@ -60,4 +60,5 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ details, o
             </div>
         </div>
     );
-};
+});
+ConfirmationModal.displayName = 'ConfirmationModal';

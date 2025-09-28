@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 interface ProgressBarProps {
     current: number;
     goal: number;
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ current, goal }) => {
+export const ProgressBar: React.FC<ProgressBarProps> = memo(({ current, goal }) => {
     const percentage = Math.min((current / goal) * 100, 100);
 
     return (
@@ -16,10 +16,11 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ current, goal }) => {
             </div>
             <div className="w-full bg-dark-accent rounded-full h-4">
                 <div
-                    className="bg-primary h-4 rounded-full transition-all duration-500 ease-out"
+                    className="bg-primary h-4 rounded-full transition-all duration-500 ease-out animate-progress-glow"
                     style={{ width: `${percentage}%` }}
                 ></div>
             </div>
         </div>
     );
-};
+});
+ProgressBar.displayName = 'ProgressBar';

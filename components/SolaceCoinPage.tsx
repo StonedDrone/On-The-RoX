@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import {
     CoinIcon, UpgradeIcon, RewardIcon, DonateIcon, SecretIcon,
     QuestIcon, ChallengeIcon, CommunityIcon, SlotMachineIcon
@@ -25,7 +25,7 @@ const CoinRain: React.FC = () => {
 };
 
 
-const ActionCard: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode; }> = ({ icon, title, children }) => (
+const ActionCard = memo<{ icon: React.ReactNode; title: string; children: React.ReactNode; }>(({ icon, title, children }) => (
     <div className="flex items-start space-x-4">
         <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-primary/20 rounded-full text-primary">
             {icon}
@@ -35,9 +35,10 @@ const ActionCard: React.FC<{ icon: React.ReactNode; title: string; children: Rea
             <p className="text-sm text-light/80">{children}</p>
         </div>
     </div>
-);
+));
+ActionCard.displayName = 'ActionCard';
 
-export const SolaceCoinPage: React.FC = () => {
+const SolaceCoinPage: React.FC = () => {
     const { user } = useUser();
     const [isFlipped, setIsFlipped] = useState(false);
     const [isRaining, setIsRaining] = useState(false);
@@ -130,3 +131,5 @@ export const SolaceCoinPage: React.FC = () => {
         </div>
     );
 };
+
+export default SolaceCoinPage;

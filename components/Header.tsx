@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 import { LogoIcon, MenuIcon, CloseIcon, UserIcon, LogoutIcon } from './icons/Icons';
 import { useUser } from '../hooks/useUser';
@@ -9,7 +9,7 @@ interface HeaderProps {
     onLoginClick: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ isMenuOpen, setIsMenuOpen, onLoginClick }) => {
+export const Header: React.FC<HeaderProps> = memo(({ isMenuOpen, setIsMenuOpen, onLoginClick }) => {
     const location = ReactRouterDom.useLocation();
     const { isLoggedIn, user, logout } = useUser();
 
@@ -127,4 +127,5 @@ export const Header: React.FC<HeaderProps> = ({ isMenuOpen, setIsMenuOpen, onLog
             )}
         </header>
     );
-};
+});
+Header.displayName = 'Header';

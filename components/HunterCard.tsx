@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import type { Hunter } from '../types';
 import { CoinIcon } from './icons/Icons';
 
@@ -6,7 +6,7 @@ interface HunterCardProps {
     hunter: Hunter;
 }
 
-export const HunterCard: React.FC<HunterCardProps> = ({ hunter }) => {
+export const HunterCard: React.FC<HunterCardProps> = memo(({ hunter }) => {
     return (
         <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-lg border border-primary/20 overflow-hidden h-full flex flex-col transition-all duration-300 hover:border-primary hover:shadow-primary/20 hover:-translate-y-2">
             <img className="w-full h-56 object-cover" src={hunter.avatarUrl} alt={hunter.name} />
@@ -30,4 +30,5 @@ export const HunterCard: React.FC<HunterCardProps> = ({ hunter }) => {
             </div>
         </div>
     );
-};
+});
+HunterCard.displayName = 'HunterCard';

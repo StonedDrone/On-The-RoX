@@ -19,7 +19,7 @@ const timeAgo = (date: Date): string => {
     return Math.floor(seconds) + " seconds ago";
 };
 
-export const ProfilePage: React.FC = () => {
+const ProfilePage: React.FC = () => {
     const { user, updateUser, isLoggedIn } = useUser();
     const navigate = ReactRouterDom.useNavigate();
     const [displayName, setDisplayName] = useState(user?.displayName || '');
@@ -131,28 +131,33 @@ export const ProfilePage: React.FC = () => {
                             Save Changes
                         </button>
                         {message && <p className="text-secondary text-sm mt-3 text-center">{message}</p>}
-                        
-                        <button
-                            onClick={handleShare}
-                            className="mt-4 w-full bg-secondary text-dark font-bold py-3 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-lime-400 flex items-center justify-center"
-                        >
-                            <LinkIcon className="w-5 h-5 mr-2" />
-                            Share Profile & Earn 25 SC
-                        </button>
-                        {copyMessage && <p className="text-secondary text-sm mt-3 text-center">{copyMessage}</p>}
                     </div>
                 </div>
 
                 {/* Stats and History */}
                 <div className="lg:col-span-2 space-y-8">
+                    {/* Stash & Referral Card */}
                     <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 border border-gold/20 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                          <h3 className="text-2xl font-bold text-light mb-4">Your Stash</h3>
-                         <div className="flex items-center space-x-4">
-                            <CoinIcon className="w-10 h-10 text-gold" style={{ filter: 'drop-shadow(0 0 8px #FFD700)' }}/>
-                            <div>
-                                <p className="text-3xl font-bold text-gold">{user.solaceCoins.toLocaleString()}</p>
-                                <p className="text-sm text-gold/80">Solace Coins</p>
+                         <div className="flex items-center justify-between flex-wrap gap-4">
+                            <div className="flex items-center space-x-4">
+                                <CoinIcon className="w-10 h-10 text-gold" style={{ filter: 'drop-shadow(0 0 8px #FFD700)' }}/>
+                                <div>
+                                    <p className="text-3xl font-bold text-gold">{user.solaceCoins.toLocaleString()}</p>
+                                    <p className="text-sm text-gold/80">Solace Coins</p>
+                                </div>
                             </div>
+                         </div>
+                         <div className="mt-6 pt-6 border-t border-gold/20 text-center">
+                            <h4 className="font-bold text-gold">Refer a Hunter, Earn Coins!</h4>
+                            <p className="text-sm text-light/80 mt-2 max-w-md mx-auto">Share your unique link. When a new hunter signs up, you'll get <strong className="text-light">25 bonus Solace Coins</strong>!</p>
+                             <button
+                                onClick={handleShare}
+                                className="mt-4 inline-flex items-center justify-center bg-secondary text-dark font-bold py-2 px-6 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-lime-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-accent focus:ring-secondary"
+                            >
+                                <LinkIcon className="w-5 h-5 mr-2" />
+                                {copyMessage ? copyMessage : 'Copy Your Referral Link'}
+                            </button>
                          </div>
                     </div>
                      <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 border border-secondary/20 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
@@ -183,3 +188,5 @@ export const ProfilePage: React.FC = () => {
         </div>
     );
 };
+
+export default ProfilePage;
