@@ -11,6 +11,14 @@ export interface UserDonation {
     timestamp: Date;
 }
 
+export interface Board {
+    id: string;
+    name: string;
+    description: string;
+    cost: number;
+    imageUrl: string;
+}
+
 export interface User {
     username: string;
     email: string;
@@ -18,6 +26,8 @@ export interface User {
     avatarUrl?: string;
     solaceCoins: number;
     donations: UserDonation[];
+    selectedBoard: string;
+    unlockedBoards: string[];
 }
 
 export interface CountdownState {

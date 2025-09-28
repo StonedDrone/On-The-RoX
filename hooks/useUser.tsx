@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { User, UserDonation } from '../types';
+import { boards } from '../data/boards';
 
 const USERS_DB_KEY = 'ontherox_users_db';
 const CURRENT_USER_KEY = 'ontherox_current_user';
@@ -13,6 +14,7 @@ interface UserContextType {
     addDonationToProfile: (donation: Omit<UserDonation, 'timestamp'> & { timestamp?: Date }) => void;
     referralMessage: string | null;
     clearReferralMessage: () => void;
+    selectOrPurchaseBoard: (boardId: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -86,6 +88,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 displayName: username,
                 solaceCoins: 150,
                 donations: [],
+                selectedBoard: 'starter-deck',
+                unlockedBoards: ['starter-deck'],
             };
 
             // Check for referral
@@ -149,6 +153,43 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return updatedUser;
         });
     }, []);
+
+    const selectOrPurchaseBoard = useCallback((boardId: string) => {
+        const boardToSelect = boards.find(b => b.id === boardId);
+        if (!boardToSelect) return;
+    
+        setUser(currentUser => {
+            if (!currentUser) return null;
+    
+            const isUnlocked = currentUser.unlockedBoards.includes(boardId);
+            
+            let updatedUser: User;
+    
+            if (isUnlocked) {
+                // Just select it
+                updatedUser = { ...currentUser, selectedBoard: boardId };
+            } else {
+                // Purchase and select
+                if (currentUser.solaceCoins >= boardToSelect.cost) {
+                    updatedUser = {
+                        ...currentUser,
+                        solaceCoins: currentUser.solaceCoins - boardToSelect.cost,
+                        unlockedBoards: [...currentUser.unlockedBoards, boardId],
+                        selectedBoard: boardId,
+                    };
+                } else {
+                    // Not enough coins, do nothing. UI should prevent this.
+                    return currentUser;
+                }
+            }
+            
+            const usersDb = getUsersDb();
+            usersDb[updatedUser.username.toLowerCase()] = updatedUser;
+            saveUsersDb(usersDb);
+    
+            return updatedUser;
+        });
+    }, []);
     
     const clearReferralMessage = useCallback(() => {
         setReferralMessage(null);
@@ -163,6 +204,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         addDonationToProfile,
         referralMessage,
         clearReferralMessage,
+        selectOrPurchaseBoard,
     };
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

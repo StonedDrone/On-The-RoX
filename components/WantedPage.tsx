@@ -1,7 +1,6 @@
 import React from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 import { allHunters } from '../data/hunters';
-import { HunterCard } from './HunterCard';
 import { LinkIcon } from './icons/Icons';
 
 interface WantedPageProps {
@@ -9,7 +8,7 @@ interface WantedPageProps {
 }
 
 const WantedPage: React.FC<WantedPageProps> = ({ totalAmount }) => {
-    const [jayNdaboX, ...rivalHunters] = allHunters;
+    const [jayNdaboX] = allHunters;
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -86,23 +85,6 @@ const WantedPage: React.FC<WantedPageProps> = ({ totalAmount }) => {
                     >
                         Place a Bounty
                     </ReactRouterDom.Link>
-                </div>
-            </div>
-
-            {/* Rival Hunters Section */}
-            <div className="mt-16 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-                <h2 className="text-3xl sm:text-4xl font-bold text-center text-primary tracking-wider mb-8 font-heading">
-                    Rival Hunter Dossiers
-                </h2>
-                <p className="text-center max-w-2xl mx-auto text-lg text-light/80 mb-12">
-                    These are the other skilled hunters on the prowl. They are also after the bounty. Do not underestimate them.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {rivalHunters.map((hunter, index) => (
-                        <div key={hunter.name} className="animate-fade-in-up" style={{ animationDelay: `${300 + index * 100}ms` }}>
-                             <HunterCard hunter={hunter} />
-                        </div>
-                    ))}
                 </div>
             </div>
         </div>

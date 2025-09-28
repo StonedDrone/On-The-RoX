@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
 import { CoinIcon, UploadIcon, UserIcon, HeartIcon, LinkIcon } from './icons/Icons';
+import { boards } from '../data/boards';
+import type { Board } from '../types';
 
 const timeAgo = (date: Date): string => {
     const seconds = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);
@@ -20,12 +22,13 @@ const timeAgo = (date: Date): string => {
 };
 
 const ProfilePage: React.FC = () => {
-    const { user, updateUser, isLoggedIn } = useUser();
+    const { user, updateUser, isLoggedIn, selectOrPurchaseBoard } = useUser();
     const navigate = ReactRouterDom.useNavigate();
     const [displayName, setDisplayName] = useState(user?.displayName || '');
     const [avatar, setAvatar] = useState(user?.avatarUrl || '');
     const [message, setMessage] = useState('');
     const [copyMessage, setCopyMessage] = useState('');
+    const [boardMessage, setBoardMessage] = useState('');
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -66,6 +69,25 @@ const ProfilePage: React.FC = () => {
             setTimeout(() => setCopyMessage(''), 3000);
         });
     };
+    
+    const handleBoardSelection = (board: Board) => {
+        if (!user) return;
+    
+        const isUnlocked = user.unlockedBoards.includes(board.id);
+    
+        if (isUnlocked) {
+            selectOrPurchaseBoard(board.id);
+            setBoardMessage(`${board.name} equipped!`);
+        } else {
+            if (user.solaceCoins >= board.cost) {
+                selectOrPurchaseBoard(board.id);
+                setBoardMessage(`Unlocked ${board.name}!`);
+            } else {
+                setBoardMessage(`Not enough coins for ${board.name}.`);
+            }
+        }
+        setTimeout(() => setBoardMessage(''), 3000);
+    }
 
 
     if (!user) {
@@ -182,6 +204,43 @@ const ProfilePage: React.FC = () => {
                                 ))
                             )}
                         </div>
+                    </div>
+                     {/* Board Selection Card */}
+                    <div className="bg-dark-accent/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 border border-primary/20 animate-fade-in-up" style={{ animationDelay: '500ms' }}>
+                        <h2 className="text-2xl font-bold text-light mb-2">Board Selection</h2>
+                        <p className="text-sm text-light/70 mb-6">Choose your ride for the hunt. Unlock new boards with Solace Coins.</p>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {boards.map(board => {
+                                const isSelected = user.selectedBoard === board.id;
+                                const isUnlocked = user.unlockedBoards.includes(board.id);
+                                const canAfford = user.solaceCoins >= board.cost;
+
+                                let button;
+                                if (isSelected) {
+                                    button = <button disabled className="w-full mt-auto bg-secondary text-dark font-bold py-2 px-4 rounded-lg cursor-default">Equipped</button>;
+                                } else if (isUnlocked) {
+                                    button = <button onClick={() => handleBoardSelection(board)} className="w-full mt-auto bg-primary text-light font-bold py-2 px-4 rounded-lg transition-colors hover:bg-pink-500">Equip</button>;
+                                } else { // Locked
+                                    button = <button onClick={() => handleBoardSelection(board)} disabled={!canAfford} className="w-full mt-auto bg-dark text-light font-bold py-2 px-4 rounded-lg border border-gold transition-colors enabled:hover:bg-gold/20 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <div className="flex items-center justify-center">
+                                            <CoinIcon className="w-4 h-4 mr-2 text-gold" />
+                                            <span>{board.cost}</span>
+                                        </div>
+                                    </button>;
+                                }
+
+                                return (
+                                    <div key={board.id} className={`flex flex-col p-4 rounded-lg border-2 transition-all ${isSelected ? 'border-secondary bg-secondary/10' : 'border-primary/20 bg-dark'}`}>
+                                        <img src={board.imageUrl} alt={board.name} className="w-full h-24 object-contain rounded mb-4 bg-black/20 p-2" />
+                                        <h4 className="font-bold text-light">{board.name}</h4>
+                                        <p className="text-xs text-light/80 flex-grow mb-4">{board.description}</p>
+                                        {button}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        {boardMessage && <p className="text-secondary text-sm mt-4 text-center">{boardMessage}</p>}
                     </div>
                 </div>
             </div>
